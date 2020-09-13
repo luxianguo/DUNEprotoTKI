@@ -1,8 +1,8 @@
 # DUNEprotoTKI: tools for TKI analyses on protoDUNE data
   ## Documentation of source codes 
-   http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI/
+   http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI
 
-  ## Some quick how-to:
+  ## Quick how-to
 
 0. style/, bin/, and include/AnaFunctions.h are from submodule. Need to load/update separately with
    ```
