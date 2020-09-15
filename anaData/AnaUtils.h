@@ -51,7 +51,10 @@ enum parType{
   gkHyperon,
 
   //21
-  gkNucleus
+  gkNucleus,
+
+  //22
+  gkNoTruth
 };
 
 
@@ -115,6 +118,8 @@ TVector3 GetRecBeamFull()
       [3] fourth element: unit vector from 3D line fit of first/last 4 points (start/end direction)
      */
 
+    printf("AnaUtils::GetRecBeamFull *calo* should not be used anymore\n\n"); exit(1);
+    /*
     if(!AnaIO::reco_beam_calo_endDirX){
       printf("AnaIO::reco_beam_calo_endDirX null!\n"); exit(1);
     }
@@ -122,6 +127,7 @@ TVector3 GetRecBeamFull()
     beamdir.SetXYZ((*AnaIO::reco_beam_calo_endDirX)[version], 
                            (*AnaIO::reco_beam_calo_endDirY)[version], 
                            (*AnaIO::reco_beam_calo_endDirZ)[version] );
+    */
   }
 
   double ke = AnaIO::reco_beam_interactingEnergy/1E3;//tested, endP highly consistent with AnaIO::true_beam_interactingEnergy/1E3;//
@@ -308,8 +314,11 @@ int GetParticleType(const int pdg)
   else if(pdg>9999){
     type = gkNucleus;
   }
+  else if(pdg==-1){
+    type = gkNoTruth;
+  }
   else{
-    cout<<"getParticleType unknown pdg "<<pdg<<endl; exit(1);
+    cout<<"AnaUtils::GetParticleType unknown pdg "<<pdg<<endl; exit(1);
   }
 
   return type;

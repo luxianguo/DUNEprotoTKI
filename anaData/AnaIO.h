@@ -130,9 +130,9 @@ namespace AnaIO
   Double_t        reco_beam_trackEndDirX;
   Double_t        reco_beam_trackEndDirY;
   Double_t        reco_beam_trackEndDirZ;
-  vector<double>  *reco_beam_calo_endDirX;
-  vector<double>  *reco_beam_calo_endDirY;
-  vector<double>  *reco_beam_calo_endDirZ;
+  //vector<double>  *reco_beam_calo_endDirX;
+  //vector<double>  *reco_beam_calo_endDirY;
+  //vector<double>  *reco_beam_calo_endDirZ;
   Double_t        true_beam_startX;
   Double_t        true_beam_startY;
   Double_t        true_beam_startZ;
@@ -145,7 +145,7 @@ namespace AnaIO
   Double_t        reco_beam_endZ;
   Double_t        reco_beam_interactingEnergy;
   Double_t        true_beam_interactingEnergy;
-  Double_t        new_true_beam_interactingEnergy;
+  //Double_t        new_true_beam_interactingEnergy;
 
   Double_t        data_BI_X;
   Double_t        data_BI_Y;
@@ -431,9 +431,9 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_beam_trackEndDirY", &reco_beam_trackEndDirY);
   tree->SetBranchAddress("reco_beam_trackEndDirZ", &reco_beam_trackEndDirZ);
 
-  tree->SetBranchAddress("reco_beam_calo_endDirX", &reco_beam_calo_endDirX);
-  tree->SetBranchAddress("reco_beam_calo_endDirY", &reco_beam_calo_endDirY);
-  tree->SetBranchAddress("reco_beam_calo_endDirZ", &reco_beam_calo_endDirZ);
+  //tree->SetBranchAddress("reco_beam_calo_endDirX", &reco_beam_calo_endDirX);
+  //tree->SetBranchAddress("reco_beam_calo_endDirY", &reco_beam_calo_endDirY);
+  //tree->SetBranchAddress("reco_beam_calo_endDirZ", &reco_beam_calo_endDirZ);
   
   tree->SetBranchAddress("reco_beam_startX", &reco_beam_startX);
   tree->SetBranchAddress("true_beam_startX", &true_beam_startX);
@@ -460,7 +460,7 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_beam_endZ", &reco_beam_endZ);
   tree->SetBranchAddress("reco_beam_interactingEnergy", &reco_beam_interactingEnergy);
   tree->SetBranchAddress("true_beam_interactingEnergy", &true_beam_interactingEnergy);
-  tree->SetBranchAddress("new_true_beam_interactingEnergy", &new_true_beam_interactingEnergy);
+  //tree->SetBranchAddress("new_true_beam_interactingEnergy", &new_true_beam_interactingEnergy);
 
   //to check the difference with _allTrack_
   tree->SetBranchAddress("reco_beam_len", &reco_beam_len);

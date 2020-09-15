@@ -73,11 +73,11 @@ int GetTruthFromRec(const int recidx, TLorentzVector *& momRefBeam, int & pdg)
         }
         else{
           //--- lump great grand daughter here
-          if(TMath::Abs(directPDG)==11 || TMath::Abs(directPDG)==13 || TMath::Abs(directPDG)==22 || TMath::Abs(directPDG)==211 || directPDG==2212 || directPDG>1000000000){
+          if(TMath::Abs(directPDG)==11 || TMath::Abs(directPDG)==13 || TMath::Abs(directPDG)==22 || TMath::Abs(directPDG)==211 || directPDG==2212 || directPDG==2112 || directPDG==-1 || directPDG>1000000000){//when no true match found pdg = -1
             pdg= directPDG;
           }
           else{
-            printf("GetTruthFromRec search not done! %d %d\n", recidx, directPDG); exit(1);
+            printf("AnaCut::GetTruthFromRec search not done! %d %d\n", recidx, directPDG); exit(1);
           }
         }
       }
