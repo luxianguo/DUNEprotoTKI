@@ -1,6 +1,6 @@
 # DUNEprotoTKI: tools for TKI analyses on protoDUNE data
   ## Tags
-  20200716_DUNEproto_selection: version used to produce https://indico.fnal.gov/event/44473/
+  20200716_DUNEproto_selection: version used to produce https://indico.fnal.gov/event/44473/contributions/191740/attachments/131455/160976/20200716_DUNEproto_selection_xlu.pdf 
   
   ## Documentation of source codes 
    http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI
