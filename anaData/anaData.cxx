@@ -187,7 +187,10 @@ int anaRec(TString finName, TList *lout, const TString tag, const int nEntryToSt
     seeana110.log:kPiZero 1 signal 246.0 all 246.0 purity 100.0%
     */
     //only valid for pionana_mc_1GeV_6_15_20.root
-    const double nfullsig = kPiZero? 246.0 : 224.0;
+    //const double nfullsig = kPiZero? 246.0 : 224.0;
+    //only valid for pionana_Prod3_mc_1GeV_9_15_20.root
+    const double nfullsig = kPiZero? 1594.0 : 1829.0;
+    printf("anaData hardcoded number of signal in pionana_Prod3_mc_1GeV_9_15_20.root kPiZero %d %f\n", kPiZero, nfullsig); 
 
     const double nsig = AnaIO::hTruthSignal->GetBinContent(2);
     const double nbk = AnaIO::hTruthSignal->GetBinContent(1);
