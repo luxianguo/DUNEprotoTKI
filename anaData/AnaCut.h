@@ -441,6 +441,18 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   //
 
   const int recsize = AnaIO::reco_daughter_PFP_ID->size();
+
+  //test michel
+  if(!AnaIO::reco_daughter_PFP_michelScore_collection){
+    printf("AnaIO::reco_daughter_PFP_michelScore_collection null!!\n"); exit(1);
+  }
+  else{
+    const int michelsize= AnaIO::reco_daughter_PFP_michelScore_collection->size();
+    if(recsize!=michelsize){
+      printf("AnaIO::reco_daughter_PFP_michelScore_collection and AnaIO::reco_daughter_PFP_ID have different sizes %d %d\n", michelsize, recsize); exit(1);
+    }
+  }
+  
   /*//checked, they are the same
   const int mbr     = AnaIO::reco_daughter_allTrack_momByRange_proton->size();
   if(recsize!=mbr){
