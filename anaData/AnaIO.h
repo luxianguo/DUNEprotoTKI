@@ -397,8 +397,8 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_PFP_nHits", &reco_daughter_PFP_nHits);
   tree->SetBranchAddress("reco_daughter_PFP_trackScore_collection", &reco_daughter_PFP_trackScore_collection);
   tree->SetBranchAddress("reco_daughter_PFP_emScore_collection", &reco_daughter_PFP_emScore_collection);
-  //tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &input_michel_array);
-  tree->SetBranchAddress("reco_daughter_allTrack_vertex_michel_score", &input_michel_array);
+  tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &input_michel_array);
+  //tree->SetBranchAddress("reco_daughter_allTrack_vertex_michel_score", &input_michel_array);
 
   tree->SetBranchAddress("reco_daughter_allShower_ID", &reco_daughter_allShower_ID);
   tree->SetBranchAddress("reco_daughter_allShower_dirX", &reco_daughter_allShower_dirX);
