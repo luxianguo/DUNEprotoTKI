@@ -164,7 +164,7 @@ bool IsMichel(const int ii, const bool kfill, const int truthParticleType)
   //michel is not found (all below 0.5, those above 0.5 are shower and other_type)
   //
 
-  const double michelScore = (*AnaIO::reco_daughter_PFP_michelScore_collection)[ii];
+  const double michelScore = (*AnaIO::input_michel_array)[ii];
 
   if(kfill){
     style::FillInRange(AnaIO::hCutmichelScore, michelScore, truthParticleType);
@@ -443,13 +443,13 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   const int recsize = AnaIO::reco_daughter_PFP_ID->size();
 
   //test michel
-  if(!AnaIO::reco_daughter_PFP_michelScore_collection){
-    printf("AnaIO::reco_daughter_PFP_michelScore_collection null!!\n"); exit(1);
+  if(!AnaIO::input_michel_array){
+    printf("AnaIO::input_michel_array null!!\n"); exit(1);
   }
   else{
-    const int michelsize= AnaIO::reco_daughter_PFP_michelScore_collection->size();
+    const int michelsize= AnaIO::input_michel_array->size();
     if(recsize!=michelsize){
-      printf("AnaIO::reco_daughter_PFP_michelScore_collection and AnaIO::reco_daughter_PFP_ID have different sizes %d %d\n", michelsize, recsize); exit(1);
+      printf("AnaIO::input_michel_array and AnaIO::reco_daughter_PFP_ID have different sizes %d %d\n", michelsize, recsize); exit(1);
     }
   }
   

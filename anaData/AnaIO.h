@@ -100,7 +100,7 @@ namespace AnaIO
   vector<int>     *reco_daughter_PFP_nHits =0x0;
   vector<double>  *reco_daughter_PFP_trackScore_collection =0x0;
   vector<double>  *reco_daughter_PFP_emScore_collection =0x0;
-  vector<double>  *reco_daughter_PFP_michelScore_collection =0x0;
+  vector<double>  *input_michel_array =0x0;
 
   vector<int>     *reco_daughter_allShower_ID=0x0;
   vector<double>  *reco_daughter_allShower_dirX=0x0;
@@ -397,8 +397,8 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_PFP_nHits", &reco_daughter_PFP_nHits);
   tree->SetBranchAddress("reco_daughter_PFP_trackScore_collection", &reco_daughter_PFP_trackScore_collection);
   tree->SetBranchAddress("reco_daughter_PFP_emScore_collection", &reco_daughter_PFP_emScore_collection);
-  tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &reco_daughter_PFP_michelScore_collection);
-  //tree->SetBranchAddress("reco_track_michel_score", &reco_daughter_PFP_michelScore_collection);
+  //tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &input_michel_array);
+  tree->SetBranchAddress("reco_daughter_allTrack_vertex_michel_score", &input_michel_array);
 
   tree->SetBranchAddress("reco_daughter_allShower_ID", &reco_daughter_allShower_ID);
   tree->SetBranchAddress("reco_daughter_allShower_dirX", &reco_daughter_allShower_dirX);
