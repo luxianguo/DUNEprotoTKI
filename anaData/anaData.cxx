@@ -31,7 +31,7 @@ const bool gkFillBefore = true;//false;//
 const int gkDataBit = 3;
 
 //gkFast=true: only png will be save; otherwise eps, pdf, png all saved
-const bool gkFast = false;
+const bool gkFast = true;//false;
 
 int anaRec(TString finName, TList *lout, const TString tag, const int nEntryToStop = -999)
 {

@@ -132,7 +132,7 @@ TVector3 GetRecBeamFull()
 
   double ke = AnaIO::reco_beam_interactingEnergy/1E3;//tested, endP highly consistent with AnaIO::true_beam_interactingEnergy/1E3;//
   if(ke<0){
-    printf("AnaUtils::GetRecBeamFull ke<0 %f\n", ke); //exit(1);
+    //printf("AnaUtils::GetRecBeamFull ke<0 %f\n", ke); //exit(1);
     ke = 1E-10;
   }
 
@@ -188,7 +188,7 @@ TLorentzVector GetMomentumRefBeam(const bool isTruth, const int trackIndex, cons
   return momentumRefBeam;
 }
 
-TVector3 GetShowerVector(const int ii)
+TVector3 GetRecShowerVector(const int ii)
 {
   const TVector3 vtx(AnaIO::reco_beam_endX, AnaIO::reco_beam_endY, AnaIO::reco_beam_endZ);
   const TVector3 shw((*AnaIO::reco_daughter_allShower_startX)[ii], (*AnaIO::reco_daughter_allShower_startY)[ii], (*AnaIO::reco_daughter_allShower_startZ)[ii]);
@@ -197,7 +197,63 @@ TVector3 GetShowerVector(const int ii)
   return dist;
 }
 
-TLorentzVector * GetPiZero(const vector<TLorentzVector> & shws,  const vector<double> & showerEarr, const vector<int> & showerTypeArray, const bool kprint, const bool kfill)
+TVector3 GetTrueShowerVector(const int ii)
+{
+  const TVector3 vtx(AnaIO::true_beam_endX, AnaIO::true_beam_endY, AnaIO::true_beam_endZ);
+  const TVector3 shw((*AnaIO::reco_daughter_PFP_true_byHits_startX)[ii], (*AnaIO::reco_daughter_PFP_true_byHits_startY)[ii], (*AnaIO::reco_daughter_PFP_true_byHits_startZ)[ii]);
+   
+  const TVector3 dist=shw-vtx;
+  return dist;
+}
+
+TVector3 GetRecShowerStartPosition(const int ii)
+{
+  const TVector3 showerPosition((*AnaIO::reco_daughter_allShower_startX)[ii],(*AnaIO::reco_daughter_allShower_startY)[ii],(*AnaIO::reco_daughter_allShower_startZ)[ii]);
+  return showerPosition;
+}
+
+TVector3 GetTrueShowerStartPosition(const int ii)
+{
+  const TVector3 showerPosition((*AnaIO::reco_daughter_PFP_true_byHits_startX)[ii],(*AnaIO::reco_daughter_PFP_true_byHits_startY)[ii],(*AnaIO::reco_daughter_PFP_true_byHits_startZ)[ii]);
+  return showerPosition;
+}
+
+TVector3 GetRecShowerDir(const int ii)
+{
+  const TVector3 showerDir((*AnaIO::reco_daughter_allShower_dirX)[ii],(*AnaIO::reco_daughter_allShower_dirY)[ii],(*AnaIO::reco_daughter_allShower_dirZ)[ii] );  
+  return showerDir;
+}
+
+TVector3 GetTrueShowerDir(const int ii)
+{
+  const TVector3 showerDir((*AnaIO::reco_daughter_PFP_true_byHits_startPx)[ii],(*AnaIO::reco_daughter_PFP_true_byHits_startPy)[ii],(*AnaIO::reco_daughter_PFP_true_byHits_startPz)[ii]);
+  return showerDir;
+}
+
+TLorentzVector GetRecShower4MomVector(const int ii)
+{
+  const TVector3 showerDir = GetRecShowerDir(ii);
+  const double showerE = (*AnaIO::reco_daughter_allShower_energy)[ii] * 1E-3;
+  //MicroBooNE ShowerE corrections
+  //Need to find the formula in protoDUNE case
+  const double showerE_corrected = 1.4*showerE;//(showerE-0.0079)/0.68;
+  const TVector3 showerMomentum = showerDir.Unit()*showerE_corrected;
+  const TLorentzVector showerLv( showerMomentum, showerMomentum.Mag() );  
+
+  return showerLv;  
+}
+
+TLorentzVector GetTrueShower4MomVector(const int ii)
+{
+  const TVector3 showerDir = GetTrueShowerDir(ii);
+  const double showerE = (*AnaIO::reco_daughter_PFP_true_byHits_startP)[ii];
+  const TVector3 showerMomentum = showerDir.Unit()*showerE;
+  const TLorentzVector showerLv( showerMomentum, showerMomentum.Mag() );
+
+  return showerLv;
+}
+
+TLorentzVector * GetPiZero(const vector<TLorentzVector> & shws, const vector<TLorentzVector> & shwsTrue, const vector<double> & showerEarr, const vector<double> & showerEarrTrue, const vector<int> & showerTypeArray, const bool kprint, const bool kfill)
 {
   //
   //combine shower-shower pair and return the most energetic one
@@ -211,7 +267,7 @@ TLorentzVector * GetPiZero(const vector<TLorentzVector> & shws,  const vector<do
   }
 
   TLorentzVector * outcopy = 0x0;
-
+  TLorentzVector * outcopyTrue = 0x0;
   //for gkOnlySignal=true, due to non-reconstruction of shower can fail this
   if(shsize>=2){
     const double* shE = &(showerEarr[0]);
@@ -222,19 +278,54 @@ TLorentzVector * GetPiZero(const vector<TLorentzVector> & shws,  const vector<do
     const TLorentzVector ldShower = shws[nindex[0]];
     const TLorentzVector slShower = shws[nindex[1]];
 
-    outcopy = new TLorentzVector(ldShower+slShower);
+    const TLorentzVector ldShowerTrue = shwsTrue[nindex[0]];
+    const TLorentzVector slShowerTrue = shwsTrue[nindex[1]];
+    const double openingAngle = ldShower.Angle(slShower.Vect())*TMath::RadToDeg(); 
+    const double openingAngleTrue = ldShowerTrue.Angle(slShowerTrue.Vect())*TMath::RadToDeg();
 
-    const double mpi0 = outcopy->M();
-    if(kfill){
-      style::FillInRange(AnaIO::hRecMpi0,   mpi0, truthEventType);
-      if(truthEventType==gkSignal){
-        style::FillInRange(AnaIO::hRecLDMpi0, mpi0, showerTypeArray[nindex[0]]);
-        style::FillInRange(AnaIO::hRecSLMpi0, mpi0, showerTypeArray[nindex[1]]);
+    const double openingAngleRes = openingAngle - openingAngleTrue;
+    if(ldShower.E() > 0.05 && openingAngle > 20 && openingAngle < 80){
+
+      outcopy = new TLorentzVector(ldShower+slShower);
+      outcopyTrue = new TLorentzVector(ldShowerTrue+slShowerTrue);
+      const double mpi0 = outcopy->M();
+      const double mompi0 = outcopy->P();
+      const double thetapi0 = outcopy->Theta()*TMath::RadToDeg();
+      const double phipi0 = outcopy->Phi()*TMath::RadToDeg();
+
+      const double mpi0True = outcopyTrue->M();
+      const double mompi0True = outcopyTrue->P();
+      const double thetapi0True = outcopyTrue->Theta()*TMath::RadToDeg();
+      const double phipi0True = outcopyTrue->Phi()*TMath::RadToDeg();
+      
+      const double mompi0Res = mompi0/mompi0True -1;
+      const double thetapi0Res = thetapi0 - thetapi0True;
+      const double phipi0Res = mompi0 - phipi0True;
+
+      if(kfill){
+        style::FillInRange(AnaIO::hRecMpi0,   mpi0, truthEventType);
+        style::FillInRange(AnaIO::hRecMompi0,   mompi0, truthEventType);
+        style::FillInRange(AnaIO::hRecThetapi0,   thetapi0, truthEventType);
+        style::FillInRange(AnaIO::hRecPhipi0,   phipi0, truthEventType);
+        style::FillInRange(AnaIO::hRecShowerOpenAngle, openingAngle, truthEventType);
+
+        style::FillInRange(AnaIO::hTrueMpi0,   mpi0True, truthEventType);
+        
+        style::FillInRange(AnaIO::hRecMompi0Res, mompi0True, mompi0Res);
+        style::FillInRange(AnaIO::hRecThetapi0Res, thetapi0True, thetapi0Res);
+        style::FillInRange(AnaIO::hRecPhipi0Res, phipi0True, phipi0Res);
+        style::FillInRange(AnaIO::hRecShowerOpenAngleRes, openingAngleTrue, openingAngleRes);
+        style::FillInRange(AnaIO::hRecShowerEOARes, openingAngle, mompi0Res); 
+        style::FillInRange(AnaIO::hRecLDShowerEnergy, showerEarr[nindex[0]], showerTypeArray[nindex[0]]);
+        style::FillInRange(AnaIO::hRecShowerELDRes, showerEarr[nindex[0]], mompi0Res);
+        if(truthEventType==gkSignal){
+          style::FillInRange(AnaIO::hRecLDMpi0, mpi0, showerTypeArray[nindex[0]]);
+          style::FillInRange(AnaIO::hRecSLMpi0, mpi0, showerTypeArray[nindex[1]]);
+        }
       }
-    }
-    
-    delete nindex;
-
+ }   
+      delete nindex;
+   // }
     //all combination followed by picking the leading Energy pi0 = use leading E showers directly to get pi0, identical results
     /*
     vector<TLorentzVector> piarr;

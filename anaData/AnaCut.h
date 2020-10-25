@@ -164,7 +164,7 @@ bool IsMichel(const int ii, const bool kfill, const int truthParticleType)
   //michel is not found (all below 0.5, those above 0.5 are shower and other_type)
   //
 
-  const double michelScore = (*AnaIO::input_michel_array)[ii];
+  const double michelScore = (*AnaIO::reco_daughter_PFP_michelScore_collection)[ii];
 
   if(kfill){
     style::FillInRange(AnaIO::hCutmichelScore, michelScore, truthParticleType);
@@ -177,7 +177,7 @@ bool IsMichel(const int ii, const bool kfill, const int truthParticleType)
   return true;
 }
 
-bool IsShower(const bool kpi0, const int ii, vector<TLorentzVector> & showerArray, vector<double> & showerEarr, vector<int> & showerTypeArray, const bool kfill, const int truthParticleType)
+bool IsShower(const bool kpi0, const int ii, vector<TLorentzVector> & showerArray, vector<TLorentzVector> & showerArrayTrue, vector<double> & showerEarr, vector<double> & showerEarrTrue, vector<int> & showerTypeArray, const bool kfill, const int truthParticleType)
 {
   //
   //shower identification using score only for the momentum
@@ -197,7 +197,7 @@ bool IsShower(const bool kpi0, const int ii, vector<TLorentzVector> & showerArra
     return false;
   }
 
-  const TVector3 dist = AnaUtils::GetShowerVector(ii);
+  const TVector3 dist = AnaUtils::GetRecShowerVector(ii);
   if(kfill){
     style::FillInRange(AnaIO::hCutShowerTheta, dist.Theta()*TMath::RadToDeg(), truthParticleType);
     style::FillInRange(AnaIO::hCutShowerPhi, dist.Phi()*TMath::RadToDeg(), truthParticleType);
@@ -206,33 +206,68 @@ bool IsShower(const bool kpi0, const int ii, vector<TLorentzVector> & showerArra
 
   //this cut only improve pi0 channel!
   if(kpi0){
-    if( dist.Mag()<3 || dist.Mag()>90 ){
-      return false;
-    }
+  //  if( dist.Mag()<2 || dist.Mag()>90 ){
+  //    return false;
+  //  }
   }
 
   if(!AnaIO::reco_daughter_allShower_energy){
      printf("shower energy null!!\n"); exit(1);
   }
 
-  const double showerE = (*AnaIO::reco_daughter_allShower_energy)[ii] * 1E-3; //MeV to GeV
-    
-  const TVector3 showerDir((*AnaIO::reco_daughter_allShower_dirX)[ii], 
-                           (*AnaIO::reco_daughter_allShower_dirY)[ii], 
-                           (*AnaIO::reco_daughter_allShower_dirZ)[ii] );
+  const double showerLength = (*AnaIO::reco_daughter_allShower_len)[ii];
+  const double showerTrueLength = (*AnaIO::reco_daughter_PFP_true_byHits_len)[ii];
+  const TLorentzVector showerLv = AnaUtils::GetRecShower4MomVector(ii);
+  const TLorentzVector showerTrueLv = AnaUtils::GetTrueShower4MomVector(ii);
+  const TVector3 showerStartPosition = AnaUtils::GetRecShowerStartPosition(ii);
+  const TVector3 showerTrueStartPosition = AnaUtils::GetTrueShowerStartPosition(ii);
+
+  //Impact Parameters Cut
+  /*const double IP = dist.Mag()*TMath::Sin((showerLv.Angle(dist)));
+  if(kpi0){
+    if( IP > 10 ) return false; 
+  }*/
 
   if(kfill){
-    style::FillInRange(AnaIO::hRecShowerEnergy, showerE, truthParticleType);
-    style::FillInRange(AnaIO::hRecShowerDirectPhi, showerDir.Phi()*TMath::RadToDeg(), truthParticleType);
-    style::FillInRange(AnaIO::hRecShowerDiffTheta, (dist.Theta()-showerDir.Theta())*TMath::RadToDeg(), truthParticleType);
-    style::FillInRange(AnaIO::hRecShowerDiffPhi, (dist.Phi()-showerDir.Phi())*TMath::RadToDeg(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerEnergy, showerLv.E(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerDirectPhi, showerLv.Phi()*TMath::RadToDeg(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerDiffTheta, (dist.Theta()-showerLv.Theta())*TMath::RadToDeg(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerDiffPhi, (dist.Phi()-showerLv.Phi())*TMath::RadToDeg(), truthParticleType);
+
+    style::FillInRange(AnaIO::hRecShowerLength, showerLength, truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerStartX, showerStartPosition.X(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerStartY, showerStartPosition.Y(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerStartZ, showerStartPosition.Z(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerTheta, showerLv.Theta()*TMath::RadToDeg(), truthParticleType);
+    style::FillInRange(AnaIO::hRecShowerPhi, showerLv.Phi()*TMath::RadToDeg(), truthParticleType);
+    
+    //Shower Truth-matching
+    if(truthParticleType == AnaUtils::gkGamma){
+      const double ShowerEnergyRes = showerLv.E()/showerTrueLv.E()-1; 
+      const double ShowerThetaRes = (showerLv.Theta()-showerTrueLv.Theta())*TMath::RadToDeg();
+      const double ShowerPhiRes = (showerLv.Phi()-showerTrueLv.Phi())*TMath::RadToDeg();
+      const double ShowerLengthRes = showerLength/showerTrueLength-1;
+      const double ShowerStartXRes = showerStartPosition.X()/showerTrueStartPosition.X()-1;
+      const double ShowerStartYRes = showerStartPosition.Y()/showerTrueStartPosition.Y()-1;
+      const double ShowerStartZRes = showerStartPosition.Z()/showerTrueStartPosition.Z()-1;
+   
+      style::FillInRange(AnaIO::hRecShowerEnergyRes, showerTrueLv.E(), ShowerEnergyRes); 
+      style::FillInRange(AnaIO::hRecShowerThetaRes, showerTrueLv.Theta()*TMath::RadToDeg(), ShowerThetaRes);
+      style::FillInRange(AnaIO::hRecShowerPhiRes, showerTrueLv.Phi()*TMath::RadToDeg(), ShowerPhiRes);
+      style::FillInRange(AnaIO::hRecShowerLengthRes, showerTrueLength, ShowerLengthRes);
+      style::FillInRange(AnaIO::hRecShowerStartXRes, showerTrueStartPosition.X(), ShowerStartXRes);
+      style::FillInRange(AnaIO::hRecShowerStartYRes, showerTrueStartPosition.Y(), ShowerStartYRes);
+      style::FillInRange(AnaIO::hRecShowerStartZRes, showerTrueStartPosition.Z(), ShowerStartZRes);    
+      
+    }
   }
 
-  const TVector3 showerMomentum = showerDir.Unit()*showerE;
-  const TLorentzVector showerLv( showerMomentum, showerMomentum.Mag() );
   showerArray.push_back(showerLv);
-  showerEarr.push_back(showerE);
+  showerEarr.push_back(showerLv.E());
   showerTypeArray.push_back(truthParticleType);
+
+  showerArrayTrue.push_back(showerTrueLv);
+  showerEarrTrue.push_back(showerTrueLv.E());
 
   return true;
 }
@@ -290,7 +325,7 @@ bool PassProtonSubPID(const int ii, const double lastTME)
 {
   const double Chi2NDF    = AnaUtils::GetChi2NDF(ii);
 
-  if(Chi2NDF<50 || lastTME > 3.5){
+  if(Chi2NDF<50 || lastTME > 3){
     return true;
   }
   return false;
@@ -441,18 +476,6 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   //
 
   const int recsize = AnaIO::reco_daughter_PFP_ID->size();
-
-  //test michel
-  if(!AnaIO::input_michel_array){
-    printf("AnaIO::input_michel_array null!!\n"); exit(1);
-  }
-  else{
-    const int michelsize= AnaIO::input_michel_array->size();
-    if(recsize!=michelsize){
-      printf("AnaIO::input_michel_array and AnaIO::reco_daughter_PFP_ID have different sizes %d %d\n", michelsize, recsize); exit(1);
-    }
-  }
-  
   /*//checked, they are the same
   const int mbr     = AnaIO::reco_daughter_allTrack_momByRange_proton->size();
   if(recsize!=mbr){
@@ -472,8 +495,8 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   //vector<TLorentzVector> pionArray; //that is non-proton actually
   */
 
-  vector<TLorentzVector> showerArray;
-  vector<double> showerEarr;
+  vector<TLorentzVector> showerArray, showerArrayTrue;
+  vector<double> showerEarr, showerEarrTrue;
   vector<int> showerTypeArray;
 
   //static bool kPrintCutInfo = true;
@@ -517,7 +540,7 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
       npiplus++;
     }
 
-    if(IsShower(kpi0, ii, showerArray, showerEarr, showerTypeArray, kfill, truthParticleType)){
+    if(IsShower(kpi0, ii, showerArray, showerArrayTrue,  showerEarr, showerEarrTrue, showerTypeArray, kfill, truthParticleType)){
       nshower++;
     }
 
@@ -546,7 +569,7 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   //leading pi0 is event-level info
   if(kpi0){
     const bool kprint = false;
-    leadingPi0 = AnaUtils::GetPiZero(showerArray, showerEarr, showerTypeArray, kprint, kfill);
+    leadingPi0 = AnaUtils::GetPiZero(showerArray, showerArrayTrue, showerEarr, showerEarrTrue, showerTypeArray, kprint, kfill);
   }
 
   if(kprint){

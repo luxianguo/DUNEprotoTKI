@@ -83,6 +83,16 @@ namespace AnaIO
   vector<int>* reco_daughter_PFP_true_byHits_PDG = 0x0;
   vector<int>* reco_daughter_allTrack_ID = 0x0;
 
+  vector<double>  *reco_daughter_PFP_true_byHits_purity = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_len = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startX = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startY = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startZ = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startPx = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startPy = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startPz = 0x0;
+  vector<double>  *reco_daughter_PFP_true_byHits_startP  = 0x0;
+
   vector<vector<double> >* reco_daughter_allTrack_calibrated_dEdX_SCE = 0x0;
 
   vector<double>* reco_daughter_allTrack_Chi2_proton = 0x0;
@@ -100,7 +110,7 @@ namespace AnaIO
   vector<int>     *reco_daughter_PFP_nHits =0x0;
   vector<double>  *reco_daughter_PFP_trackScore_collection =0x0;
   vector<double>  *reco_daughter_PFP_emScore_collection =0x0;
-  vector<double>  *input_michel_array =0x0;
+  vector<double>  *reco_daughter_PFP_michelScore_collection =0x0;
 
   vector<int>     *reco_daughter_allShower_ID=0x0;
   vector<double>  *reco_daughter_allShower_dirX=0x0;
@@ -110,6 +120,7 @@ namespace AnaIO
   vector<double>  *reco_daughter_allShower_startX = 0x0;
   vector<double>  *reco_daughter_allShower_startY = 0x0;
   vector<double>  *reco_daughter_allShower_startZ = 0x0;
+  vector<double>  *reco_daughter_allShower_len = 0x0;
     
   vector<double>* reco_daughter_allTrack_momByRange_proton = 0x0;
   vector<double>* reco_daughter_allTrack_momByRange_muon = 0x0;
@@ -139,6 +150,9 @@ namespace AnaIO
   Double_t        true_beam_startDirX;
   Double_t        true_beam_startDirY;
   Double_t        true_beam_startDirZ;
+  Double_t        true_beam_endX;
+  Double_t        true_beam_endY;
+  Double_t        true_beam_endZ;
 
   Double_t        reco_beam_endX;
   Double_t        reco_beam_endY;
@@ -224,10 +238,37 @@ namespace AnaIO
 
   TH2D * hRecPi0Nshower = 0x0;
   TH2D * hRecMpi0 = 0x0;
+  TH2D * hRecMompi0 = 0x0;
+  TH2D * hRecThetapi0 = 0x0;
+  TH2D * hRecPhipi0 = 0x0;
   TH2D * hRecLDMpi0 = 0x0;
   TH2D * hRecSLMpi0 = 0x0;
   TH2D * hRecShowerEnergy = 0x0;
 
+  TH2D * hRecShowerStartX = 0x0;
+  TH2D * hRecShowerStartY = 0x0;
+  TH2D * hRecShowerStartZ = 0x0;
+  TH2D * hRecShowerLength = 0x0;
+  TH2D * hRecShowerTheta = 0x0;
+  TH2D * hRecShowerPhi = 0x0;
+  TH2D * hRecShowerOpenAngle = 0x0;
+  TH2D * hTrueMpi0 = 0x0;
+  
+  TH2D * hRecShowerEnergyRes = 0x0;
+  TH2D * hRecShowerStartXRes = 0x0;
+  TH2D * hRecShowerStartYRes = 0x0;
+  TH2D * hRecShowerStartZRes = 0x0;
+  TH2D * hRecShowerLengthRes = 0x0;
+  TH2D * hRecShowerThetaRes = 0x0;
+  TH2D * hRecShowerPhiRes = 0x0;
+  TH2D * hRecMompi0Res = 0x0;
+  TH2D * hRecThetapi0Res = 0x0;
+  TH2D * hRecPhipi0Res = 0x0;
+  TH2D * hRecShowerOpenAngleRes = 0x0;
+  TH2D * hRecShowerEOARes = 0x0; 
+  TH2D * hRecLDShowerEnergy = 0x0; 
+  TH2D * hRecShowerELDRes = 0x0; 
+  
   TH2D * hCutnHits = 0x0;
   TH2D * hCutNdEdx = 0x0;
   TH2D * hCutstartE2 = 0x0;
@@ -389,6 +430,16 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_PFP_true_byHits_PDG", &reco_daughter_PFP_true_byHits_PDG);
   tree->SetBranchAddress("reco_daughter_allTrack_ID", &reco_daughter_allTrack_ID);
 
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_purity", &reco_daughter_PFP_true_byHits_purity);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_len", &reco_daughter_PFP_true_byHits_len);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startX", &reco_daughter_PFP_true_byHits_startX);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startY", &reco_daughter_PFP_true_byHits_startY);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startZ", &reco_daughter_PFP_true_byHits_startZ);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startPx", &reco_daughter_PFP_true_byHits_startPx);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startPy", &reco_daughter_PFP_true_byHits_startPy);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startPz", &reco_daughter_PFP_true_byHits_startPz);
+  tree->SetBranchAddress("reco_daughter_PFP_true_byHits_startP", &reco_daughter_PFP_true_byHits_startP);
+
   tree->SetBranchAddress("reco_daughter_allTrack_calibrated_dEdX_SCE", &reco_daughter_allTrack_calibrated_dEdX_SCE);
   tree->SetBranchAddress("reco_daughter_allTrack_Chi2_proton", &reco_daughter_allTrack_Chi2_proton);
   tree->SetBranchAddress("reco_daughter_allTrack_Chi2_ndof", &reco_daughter_allTrack_Chi2_ndof);
@@ -397,8 +448,7 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_PFP_nHits", &reco_daughter_PFP_nHits);
   tree->SetBranchAddress("reco_daughter_PFP_trackScore_collection", &reco_daughter_PFP_trackScore_collection);
   tree->SetBranchAddress("reco_daughter_PFP_emScore_collection", &reco_daughter_PFP_emScore_collection);
-  tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &input_michel_array);
-  //tree->SetBranchAddress("reco_daughter_allTrack_vertex_michel_score", &input_michel_array);
+  tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &reco_daughter_PFP_michelScore_collection);
 
   tree->SetBranchAddress("reco_daughter_allShower_ID", &reco_daughter_allShower_ID);
   tree->SetBranchAddress("reco_daughter_allShower_dirX", &reco_daughter_allShower_dirX);
@@ -408,6 +458,7 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_allShower_startX", &reco_daughter_allShower_startX);
   tree->SetBranchAddress("reco_daughter_allShower_startY", &reco_daughter_allShower_startY);
   tree->SetBranchAddress("reco_daughter_allShower_startZ", &reco_daughter_allShower_startZ);
+  tree->SetBranchAddress("reco_daughter_allShower_len", &reco_daughter_allShower_len);
 
   tree->SetBranchAddress("reco_daughter_allTrack_momByRange_proton", &reco_daughter_allTrack_momByRange_proton);
   tree->SetBranchAddress("reco_daughter_allTrack_momByRange_muon", &reco_daughter_allTrack_momByRange_muon);
@@ -455,6 +506,10 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("data_BI_dirZ", &data_BI_dirZ);
   tree->SetBranchAddress("data_BI_nMomenta", &data_BI_nMomenta);
   tree->SetBranchAddress("data_BI_nTracks", &data_BI_nTracks);
+
+  tree->SetBranchAddress("true_beam_endX", &true_beam_endX);
+  tree->SetBranchAddress("true_beam_endY", &true_beam_endY);
+  tree->SetBranchAddress("true_beam_endZ", &true_beam_endZ);
 
   tree->SetBranchAddress("reco_beam_endX", &reco_beam_endX);
   tree->SetBranchAddress("reco_beam_endY", &reco_beam_endY);
@@ -555,7 +610,7 @@ void IniRecHist(TList * lout, const TString tag)
   const double dThetamin = 0;
   const double dThetamax = 180;//in deg
 
-  const int nmomentum = 30;
+  //const int nmomentum = 30;
   const double momentummin = 0;
   const double momentummax = 1.2;
 
@@ -584,8 +639,8 @@ void IniRecHist(TList * lout, const TString tag)
 
   hProtonThetaRes     = new TH2D("b100ProtonThetaResNOHTXT"+tag,"",    ndTheta, dThetamin, dThetamax, 25, -20, 30); lout->Add(hProtonThetaRes);
   hRecProtonTheta     = new TH2D("b101RecProtonThetaSTKTXT"+tag,"",     ndTheta, dThetamin, dThetamax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonTheta);
-  hProtonMomentumRes  = new TH2D("b102ProtonMomentumResNOHTXT"+tag,"", nmomentum, momentummin, momentummax, nres, -0.2, 0.2); lout->Add(hProtonMomentumRes);
-  hRecProtonMomentum  = new TH2D("b103RecProtonMomentumSTKTXT"+tag,"",  nmomentum, momentummin, momentummax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonMomentum);
+  hProtonMomentumRes  = new TH2D("b102ProtonMomentumResNOHTXT"+tag,"",20, momentummin, momentummax, nres, -0.2, 0.2); lout->Add(hProtonMomentumRes);
+  hRecProtonMomentum  = new TH2D("b103RecProtonMomentumSTKTXT"+tag,"",  20, momentummin, momentummax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonMomentum);
   hRecProtonLastE2    = new TH2D("b104RecProtonLastE2STKTXT"+tag,"",     ndedx, dedxmin, dedxmax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonLastE2);
   hRecProtonLastE3    = new TH2D("b104RecProtonLastE3STKTXT"+tag,"",     ndedx, dedxmin, dedxmax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonLastE3);
   hRecProtonLastTME   = new TH2D("b105RecProtonLastTMESTKTXT"+tag,"",     ndedx, dedxmin, dedxmax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonLastTME);
@@ -593,10 +648,10 @@ void IniRecHist(TList * lout, const TString tag)
   hRecProtonStartE3   = new TH2D("b106RecProtonStartE3STKTXT"+tag,"",     ndedx, dedxmin, dedxmax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonStartE3);
   hRecProtonStartTME  = new TH2D("b107RecProtonStartTMESTKTXT"+tag,"",     ndedx, dedxmin, dedxmax, nparType, parTypemin, parTypemax); lout->Add(hRecProtonStartTME);
 
-  hPiplusThetaRes     = new TH2D("b200PiplusThetaResNOHTXT"+tag,"",        ndTheta, dThetamin, dThetamax, 25, -20, 30); lout->Add(hPiplusThetaRes);
-  hRecPiplusTheta     = new TH2D("b201RecPiplusThetaSTKTXT"+tag,"",     ndTheta, dThetamin, dThetamax, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusTheta);
-  hPiplusMomentumRes  = new TH2D("b202PiplusMomentumResNOHTXT"+tag,"",     nmomentum, momentummin, momentummax, nres, resmin, resmax); lout->Add(hPiplusMomentumRes);
-  hRecPiplusMomentum  = new TH2D("b203RecPiplusMomentumSTKTXT"+tag,"",  nmomentum, momentummin, momentummax, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusMomentum);
+  hPiplusThetaRes     = new TH2D("b200PiplusThetaResNOHTXT"+tag,"",        15, dThetamin, dThetamax, 25, -20, 30); lout->Add(hPiplusThetaRes);
+  hRecPiplusTheta     = new TH2D("b201RecPiplusThetaSTKTXT"+tag,"",     15, dThetamin, dThetamax, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusTheta);
+  hPiplusMomentumRes  = new TH2D("b202PiplusMomentumResNOHTXT"+tag,"",     20, momentummin, momentummax, nres, resmin, resmax); lout->Add(hPiplusMomentumRes);
+  hRecPiplusMomentum  = new TH2D("b203RecPiplusMomentumSTKTXT"+tag,"",  20, momentummin, momentummax, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusMomentum);
   hRecPiplusLastE2    = new TH2D("b204RecPiplusLastE2STKTXT"+tag,"",     ndedx, dedxmin, dedxmax/3, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusLastE2);
   hRecPiplusLastE3    = new TH2D("b204RecPiplusLastE3STKTXT"+tag,"",     ndedx, dedxmin, dedxmax/3, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusLastE3);
   hRecPiplusLastTME   = new TH2D("b205RecPiplusLastTMESTKTXT"+tag,"",     ndedx, dedxmin, dedxmax/3, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusLastTME);
@@ -605,15 +660,46 @@ void IniRecHist(TList * lout, const TString tag)
   hRecPiplusStartTME  = new TH2D("b207RecPiplusStartTMESTKTXT"+tag,"",     ndedx, dedxmin, dedxmax/2, nparType, parTypemin, parTypemax); lout->Add(hRecPiplusStartTME);
 
   hRecPi0Nshower      = new TH2D("b300bRecPi0NshowerSTKTXT"+tag,"",      ncounter, countermin, countermax, nevtType, evtTypemin, evtTypemax); lout->Add(hRecPi0Nshower);
-  hRecMpi0            = new TH2D("b301RecMpi0STKTXT"+tag,"",             15, 0, 0.3, nevtType, evtTypemin, evtTypemax); lout->Add(hRecMpi0);
-  hRecShowerEnergy    = new TH2D("b302RecShowerEnergySTKTXT"+tag,"",     50, 0, 0.5, nparType, parTypemin, parTypemax); lout->Add(hRecShowerEnergy);
+  hRecMpi0            = new TH2D("b301RecMpi0STKTXT"+tag,"",             10, 0, 0.5, nevtType, evtTypemin, evtTypemax); lout->Add(hRecMpi0);
+  hRecShowerEnergy    = new TH2D("b302RecShowerEnergySTKTXT"+tag,"",     15, 0, 1, nparType, parTypemin, parTypemax); lout->Add(hRecShowerEnergy);
   hRecLDMpi0          = new TH2D("b303RecLDMpi0STKTXT"+tag,"",           15, 0, 0.3, nparType, parTypemin, parTypemax); lout->Add(hRecLDMpi0);
   hRecSLMpi0          = new TH2D("b303RecSLMpi0STKTXT"+tag,"",           15, 0, 0.3, nparType, parTypemin, parTypemax); lout->Add(hRecSLMpi0);
   hRecShowerDirectPhi = new TH2D("b304RecShowerDirectPhiSTKTXT"+tag,"",  30, -180, 180, nparType, parTypemin, parTypemax); lout->Add(hRecShowerDirectPhi);
   hRecShowerDiffTheta = new TH2D("b304RecShowerDiffThetaSTKTXT"+tag,"",  30, -90, 90, nparType, parTypemin, parTypemax); lout->Add(hRecShowerDiffTheta);
   hRecShowerDiffPhi   = new TH2D("b304RecShowerDiffPhiSTKTXT"+tag,"",    30, -90, 90, nparType, parTypemin, parTypemax); lout->Add(hRecShowerDiffPhi);
 
+  hRecShowerStartX    = new TH2D("b306RecShowerStartXSTKTXT"+tag,"",     24, -100, 20, nparType, parTypemin, parTypemax); lout->Add(hRecShowerStartX);
+  hRecShowerStartY    = new TH2D("b307RecShowerStartYSTKTXT"+tag,"",     30, 320, 470, nparType, parTypemin, parTypemax); lout->Add(hRecShowerStartY);
+  hRecShowerStartZ    = new TH2D("b308RecShowerStartZSTKTXT"+tag,"",     50, 0, 250, nparType, parTypemin, parTypemax); lout->Add(hRecShowerStartZ);
+  hRecShowerLength    = new TH2D("b309RecShowerLengthSTKTXT"+tag,"",     40, 0, 200, nparType, parTypemin, parTypemax); lout->Add(hRecShowerLength);
+  hRecShowerTheta     = new TH2D("b310RecShowerThetaSTKTXT"+tag,"",     20, 0, 180, nparType, parTypemin, parTypemax); lout->Add(hRecShowerTheta);
+  hRecShowerPhi       = new TH2D("b311RecShowerPhiSTKTXT"+tag,"",     30, -180, 180, nparType, parTypemin, parTypemax); lout->Add(hRecShowerPhi);
+   
+  hRecMompi0            = new TH2D("b312RecMompi0STKTXT"+tag,"",             10, 0, 1, nevtType, evtTypemin, evtTypemax); lout->Add(hRecMompi0);
+  hRecThetapi0            = new TH2D("b313RecThetapi0STKTXT"+tag,"",             10, 0, 180, nevtType, evtTypemin, evtTypemax); lout->Add(hRecThetapi0);
+  hRecPhipi0            = new TH2D("b314RecPhipi0STKTXT"+tag,"",             8, -180, 180, nevtType, evtTypemin, evtTypemax); lout->Add(hRecPhipi0);
+
+  hRecShowerOpenAngle       = new TH2D("b315RecShowerOpenAngleSTKTXT"+tag,"",     30, -180, 180, nparType, parTypemin, parTypemax); lout->Add(hRecShowerOpenAngle);
+  hTrueMpi0            = new TH2D("b316TrueMpi0STKTXT"+tag,"",             10, 0, 0.5, nevtType, evtTypemin, evtTypemax); lout->Add(hTrueMpi0);
+
   hRecOtherPDG        = new TH1I("b400RecOtherPDGTXT"+tag,"", 25, -0.5, 24.5); lout->Add(hRecOtherPDG);
+
+  hRecShowerEnergyRes    = new TH2D("b501RecShowerEnergyResNOHTXT"+tag,"",     15, 0, 1, nres, resmin, resmax); lout->Add(hRecShowerEnergyRes);
+  hRecShowerStartXRes    = new TH2D("b502RecShowerStartXResNOHTXT"+tag,"",     24, -100, 20, nres, resmin, resmax); lout->Add(hRecShowerStartXRes);
+  hRecShowerStartYRes    = new TH2D("b503RecShowerStartYResNOHTXT"+tag,"",     30, 320, 470, nres, resmin, resmax); lout->Add(hRecShowerStartYRes);
+  hRecShowerStartZRes    = new TH2D("b504RecShowerStartZResNOHTXT"+tag,"",     50, 0, 250, nres, resmin, resmax); lout->Add(hRecShowerStartZRes);
+  hRecShowerLengthRes    = new TH2D("b505RecShowerLengthResNOHTXT"+tag,"",     40, 0, 200, nres, resmin, resmax); lout->Add(hRecShowerLengthRes);
+  hRecShowerThetaRes     = new TH2D("b506RecShowerThetaResNOHTXT"+tag,"",     20, 0, 180, 25, -60, 60); lout->Add(hRecShowerThetaRes);
+  hRecShowerPhiRes       = new TH2D("b507RecShowerPhiResNOHTXT"+tag,"",     20, -180, 180, 25, -60, 60); lout->Add(hRecShowerPhiRes);
+
+  hRecMompi0Res    = new TH2D("b508RecMompi0ResNOHTXT"+tag,"",     10, 0, 1, nres, resmin, resmax); lout->Add(hRecMompi0Res);
+  hRecThetapi0Res    = new TH2D("b509RecThetapi0ResNOHTXT"+tag,"",     20, 0, 180, 25, -60, 60); lout->Add(hRecThetapi0Res);
+  hRecPhipi0Res    = new TH2D("b510RecPhipi0ResNOHTXT"+tag,"",     10, -180, 180, 25, -60, 60); lout->Add(hRecPhipi0Res);
+  
+  hRecShowerOpenAngleRes       = new TH2D("b511RecShowerOpenAngleResNOHTXT"+tag,"",     20, 0, 180, 25, -60, 60); lout->Add(hRecShowerOpenAngleRes);
+  hRecShowerEOARes       = new TH2D("b512RecShowerEOAResNOHTXT"+tag,"",     20, 0, 180, nres, resmin, resmax); lout->Add(hRecShowerEOARes);
+  hRecLDShowerEnergy    = new TH2D("b513RecLDShowerEnergySTKTXT"+tag,"",     20, 0, 1, nparType, parTypemin, parTypemax); lout->Add(hRecLDShowerEnergy);
+  hRecShowerELDRes       = new TH2D("b514RecShowerELDResNOHTXT"+tag,"",     20, 0, 1, nres, resmin, resmax); lout->Add(hRecShowerELDRes);
 
   hCutBeamID          = new TH1I("c000CutBeamIDTXT"+tag,"", 2, -0.5, 1.5); lout->Add(hCutBeamID);
   hCutBeamType        = new TH2D("c001CutBeamTypeSTKTXT"+tag,  "", 30, -4.5, 25.5, nevtType, evtTypemin, evtTypemax); lout->Add(hCutBeamType);
