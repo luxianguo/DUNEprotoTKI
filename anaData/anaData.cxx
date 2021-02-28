@@ -25,10 +25,10 @@
 const bool gkOnlySignal = false;
 
 //if true, observables will be filled before cuts; otherwise after. "false" if gkOnlySignal "true": only fill after all cuts
-const bool gkFillBefore = true;//false;//
+const bool gkFillBefore = (gkOnlySignal?false:true);//false;//
 
 //1 is mc, 2 is data, 3 is both
-const int gkDataBit = 3;
+const int gkDataBit = (gkOnlySignal?1:3);
 
 //gkFast=true: only png will be save; otherwise eps, pdf, png all saved
 const bool gkFast = false;
@@ -170,7 +170,9 @@ int anaRec(TString finName, TList *lout, const TString tag, const int nEntryToSt
   //print cut flow statistics:
   int icut = 0;
   double nsel = -999;
-  nsel = style::PrintStat(tag+Form(" %d. Beam ID",  icut++), AnaIO::hCutBeamID, 1, 1, ientry);
+  if(!gkOnlySignal){
+    nsel = style::PrintStat(tag+Form(" %d. Beam ID",  icut++), AnaIO::hCutBeamID, 1, 1, ientry);
+  }
   nsel = style::PrintStat(tag+Form(" %d. Pandora beam type",  icut++), AnaIO::hCutBeamType, 13, 13, nsel);
   nsel = style::PrintStat(tag+Form(" %d. Beam Pos",  icut++), AnaIO::hCutBeamPosPass, 1, 1, nsel);
   nsel = style::PrintStat(tag+Form(" %d. APA3",  icut++), AnaIO::hCutBeamEndZPass, 1, 1, nsel);
