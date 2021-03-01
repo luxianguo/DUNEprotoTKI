@@ -1,10 +1,13 @@
 # DUNEprotoTKI: tools for TKI analyses on protoDUNE data
   ## Tags
-  20200716_DUNEproto_selection: version used to produce https://indico.fnal.gov/event/44473/contributions/191740/attachments/131455/160976/20200716_DUNEproto_selection_xlu.pdf 
+  20200716_DUNEproto_selection: version used to produce                       https://indico.fnal.gov/event/44473/contributions/191740/attachments/131455/160976/20200716_DUNEproto_selection_xlu.pdf 
   
   ## Documentation of source codes 
-   http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI
+    http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI
 
+  ## Analysis Tutorial
+    https://docs.google.com/document/d/1WtcmMc4_-jgkhw0bKZWe98nhYL54orRb7lmLkx6MgzQ/edit?usp=sharing
+  
   ## Quick how-to
 
 0. style/, bin/, and include/AnaFunctions.h are from submodule. Need to load/update separately with
