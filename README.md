@@ -27,6 +27,11 @@
    anaData/input/
    ```
    need to be unlinked (unlink) and then relinked (ln -s) to the actual paths of the data. 
+   - keep the old link name by using 
+   ```
+   ln -s actual_path old_link_name
+   ```
+   otherwise the input will break.
    - ***Do not push root files to repository.***
    - Printouts of the data structure can be found in doc/.
 
