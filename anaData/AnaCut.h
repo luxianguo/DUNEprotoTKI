@@ -165,7 +165,7 @@ bool IsMichel(const int ii, const bool kfill, const int truthParticleType)
   //
 
   const double michelScore = (*AnaIO::input_michelScore_array)[ii];
-  const int michelNhit = (*AnaIO::input_michelNhit_array)[ii];
+  const int michelNhit = AnaIO::input_michelNhit_array? (*AnaIO::input_michelNhit_array)[ii] : 0;
   const double michelPerHitScore = michelScore/(michelNhit+ 0.000001 );
     
   if(kfill){

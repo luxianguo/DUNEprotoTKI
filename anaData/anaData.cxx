@@ -28,10 +28,10 @@ const bool gkOnlySignal = false;
 const bool gkFillBefore = false;//(gkOnlySignal?false:true);//
 
 //1 is mc, 2 is data, 3 is both
-const int gkDataBit = 1;//(gkOnlySignal?1:3);
+const int gkDataBit = 3;//1;//(gkOnlySignal?1:3);
 
 //gkFast=true: only png will be save; otherwise eps, pdf, png all saved
-const bool gkFast = false;
+const bool gkFast = 1;//false;
 
 int anaRec(TString finName, TList *lout, const TString tag, const int nEntryToStop = -999)
 {
