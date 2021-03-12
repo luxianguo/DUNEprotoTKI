@@ -174,8 +174,8 @@ bool IsMichel(const int ii, const bool kfill, const int truthParticleType)
     style::FillInRange(AnaIO::hCutmichelPerHitScore, michelPerHitScore, truthParticleType);
   }
 
-  if( michelScore<=0.5 ){
-  //test if( michelPerHitScore<=0.5 ){
+  //obsolete if( michelScore<=0.5 ){
+  if( michelPerHitScore<=0.5 ){
     return false;
   }
    
@@ -614,7 +614,6 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
 
   //4. nmichel
   style::FillInRange(AnaIO::hCutnmichel, cutnmichel, filleventtype);
-  /*test
   if(kpi0){
     //require no michel for pi0
     if(cutnmichel!=0){
@@ -627,13 +626,13 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
       return false;
     }
   }
-  */
-  
+
+  /*obsolete
   //not found in signal, cut for both channels
   if(cutnmichel!=0){
     return false;
   }
-  
+  */
   
   return true;
 }
