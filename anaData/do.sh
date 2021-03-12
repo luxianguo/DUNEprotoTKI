@@ -13,7 +13,7 @@ mkexe.sh anaData -lstyle -I../style  -L../style || return 1
 #exit
 
 
-for kPiZero in 0 1               
+for kPiZero in 0 
 do 
     for kProton in 1
                    #0 1

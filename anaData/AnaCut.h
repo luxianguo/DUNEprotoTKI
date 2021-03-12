@@ -164,13 +164,18 @@ bool IsMichel(const int ii, const bool kfill, const int truthParticleType)
   //michel is not found (all below 0.5, those above 0.5 are shower and other_type)
   //
 
-  const double michelScore = (*AnaIO::input_michel_array)[ii];
-
+  const double michelScore = (*AnaIO::input_michelScore_array)[ii];
+  const int michelNhit = (*AnaIO::input_michelNhit_array)[ii];
+  const double michelPerHitScore = michelScore/(michelNhit+ 0.000001 );
+    
   if(kfill){
     style::FillInRange(AnaIO::hCutmichelScore, michelScore, truthParticleType);
+    style::FillInRange(AnaIO::hCutmichelNhit, michelNhit, truthParticleType);
+    style::FillInRange(AnaIO::hCutmichelPerHitScore, michelPerHitScore, truthParticleType);
   }
 
   if( michelScore<=0.5 ){
+  //test if( michelPerHitScore<=0.5 ){
     return false;
   }
    
@@ -443,13 +448,13 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   const int recsize = AnaIO::reco_daughter_PFP_ID->size();
 
   //test michel
-  if(!AnaIO::input_michel_array){
-    printf("AnaIO::input_michel_array null!!\n"); exit(1);
+  if(!AnaIO::input_michelScore_array){
+    printf("AnaIO::input_michelScore_array null!!\n"); exit(1);
   }
   else{
-    const int michelsize= AnaIO::input_michel_array->size();
+    const int michelsize= AnaIO::input_michelScore_array->size();
     if(recsize!=michelsize){
-      printf("AnaIO::input_michel_array and AnaIO::reco_daughter_PFP_ID have different sizes %d %d\n", michelsize, recsize); exit(1);
+      printf("AnaIO::input_michelScore_array and AnaIO::reco_daughter_PFP_ID have different sizes %d %d\n", michelsize, recsize); exit(1);
     }
   }
   
@@ -609,10 +614,26 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
 
   //4. nmichel
   style::FillInRange(AnaIO::hCutnmichel, cutnmichel, filleventtype);
+  /*test
+  if(kpi0){
+    //require no michel for pi0
+    if(cutnmichel!=0){
+      return false;
+    }
+  }
+  else{
+    //require michel for pi+
+    if(cutnmichel==0){
+      return false;
+    }
+  }
+  */
+  
   //not found in signal, cut for both channels
   if(cutnmichel!=0){
     return false;
   }
+  
   
   return true;
 }

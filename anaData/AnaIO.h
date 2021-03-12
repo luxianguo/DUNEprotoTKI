@@ -100,7 +100,8 @@ namespace AnaIO
   vector<int>     *reco_daughter_PFP_nHits =0x0;
   vector<double>  *reco_daughter_PFP_trackScore_collection =0x0;
   vector<double>  *reco_daughter_PFP_emScore_collection =0x0;
-  vector<double>  *input_michel_array =0x0;
+  vector<double>  *input_michelScore_array =0x0;
+  vector<int>     *input_michelNhit_array =0x0;
 
   vector<int>     *reco_daughter_allShower_ID=0x0;
   vector<double>  *reco_daughter_allShower_dirX=0x0;
@@ -242,6 +243,8 @@ namespace AnaIO
   TH2D * hRecShowerDiffPhi = 0x0;
   TH2D * hCutShowerDist = 0x0;
   TH2D * hCutmichelScore = 0x0;
+  TH2D * hCutmichelNhit = 0x0;
+  TH2D * hCutmichelPerHitScore = 0x0;
   TH2D * hCutChi2NDF = 0x0;
 
   TH2D * hCutnproton = 0x0;
@@ -397,8 +400,9 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_PFP_nHits", &reco_daughter_PFP_nHits);
   tree->SetBranchAddress("reco_daughter_PFP_trackScore_collection", &reco_daughter_PFP_trackScore_collection);
   tree->SetBranchAddress("reco_daughter_PFP_emScore_collection", &reco_daughter_PFP_emScore_collection);
-  tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &input_michel_array);
-  //tree->SetBranchAddress("reco_daughter_allTrack_vertex_michel_score", &input_michel_array);
+  //tree->SetBranchAddress("reco_daughter_PFP_michelScore_collection", &input_michelScore_array);
+  tree->SetBranchAddress("reco_daughter_allTrack_vertex_michel_score", &input_michelScore_array);
+  tree->SetBranchAddress("reco_daughter_allTrack_vertex_nHits", &input_michelNhit_array);
 
   tree->SetBranchAddress("reco_daughter_allShower_ID", &reco_daughter_allShower_ID);
   tree->SetBranchAddress("reco_daughter_allShower_dirX", &reco_daughter_allShower_dirX);
@@ -625,6 +629,8 @@ void IniRecHist(TList * lout, const TString tag)
   hCuttrackScore      = new TH2D("c101CuttrackScoreSTKTXT"+tag,"",     nscore, scoremin, scoremax, nparType, parTypemin, parTypemax); lout->Add(hCuttrackScore);
   hCutemScore         = new TH2D("c102CutemScoreSTKTXT"+tag,"",        nscore, scoremin, scoremax, nparType, parTypemin, parTypemax); lout->Add(hCutemScore);
   hCutmichelScore     = new TH2D("c103CutmichelScoreSTKTXT"+tag,"",    nscore, scoremin, scoremax, nparType, parTypemin, parTypemax); lout->Add(hCutmichelScore);
+  hCutmichelNhit     = new TH2D("c103CutmichelNhitSTKTXT"+tag,"",      50, 0, 200, nparType, parTypemin, parTypemax); lout->Add(hCutmichelNhit);
+  hCutmichelPerHitScore     = new TH2D("c103CutmichelPerHitScoreSTKTXT"+tag,"",    nscore, scoremin, scoremax, nparType, parTypemin, parTypemax); lout->Add(hCutmichelPerHitScore);
   hCutnHits           = new TH2D("c104CutnHitsSTKTXT"+tag,"",          50, 0, 500, nparType, parTypemin, parTypemax); lout->Add(hCutnHits);
   hCutChi2NDF         = new TH2D("c105CutChi2NDFSTKTXT"+tag,"",        30, 0, 500, nparType, parTypemin, parTypemax); lout->Add(hCutChi2NDF);
   hCutstartE2         = new TH2D("c106CutstartE2STKTXT"+tag,"",        ndedx, dedxmin, dedxmax, nparType, parTypemin, parTypemax); lout->Add(hCutstartE2);
