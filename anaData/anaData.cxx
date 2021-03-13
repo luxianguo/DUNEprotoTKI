@@ -179,7 +179,7 @@ int anaRec(TString finName, TList *lout, const TString tag, const int nEntryToSt
   nsel = style::PrintStat(tag+Form(" %d. Nproton", icut++), AnaIO::hCutnproton, 1, 1, nsel);
   nsel = style::PrintStat(tag+Form(" %d. Nshower",  icut++), AnaIO::hCutnshower, kPiZero?2:0, kPiZero?100000:0, nsel);
   nsel = style::PrintStat(tag+Form(" %d. Npiplus",  icut++), AnaIO::hCutnpiplus, kPiZero?0:1, kPiZero?0:1, nsel);
-  nsel = style::PrintStat(tag+Form(" %d. Nmichel",  icut++), AnaIO::hCutnmichel, 0, 0, nsel);
+  nsel = style::PrintStat(tag+Form(" %d. Nmichel",  icut++), AnaIO::hCutnmichel, kPiZero?0:1, kPiZero?0:100, nsel);
   printf("End of %d cuts: %.1f selected\n", icut, nsel);
 
   if(kMC){

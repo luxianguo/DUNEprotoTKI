@@ -633,6 +633,8 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
     return false;
   }
   */
+
+  //test printf("selected run %d subrun %d event %d\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent);
   
   return true;
 }

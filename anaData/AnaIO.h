@@ -67,6 +67,11 @@ namespace AnaIO
   //<--
 
   //======================================= tree in =======================================
+  //--------------------------------------- Info ------------------------------------------
+  Int_t           inputrun;
+  Int_t           inputsubrun;
+  Int_t           inputevent;
+
   //--------------------------------------- anaTruth ---------------------------------------
   vector<double> *true_beam_daughter_startPx=0x0;
   vector<double> *true_beam_daughter_startPy=0x0;
@@ -377,6 +382,11 @@ TTree * GetInputTree(TFile * fin, const TString tname)
     exit(1);
   }
 
+  //--------------------------------------- Info --------------------------------------
+  tree->SetBranchAddress("run", &inputrun);
+  tree->SetBranchAddress("subrun", &inputsubrun);
+  tree->SetBranchAddress("event", &inputevent);
+  
   //--------------------------------------- anaTruth ---------------------------------------
   tree->SetBranchAddress("true_beam_daughter_startPx", &true_beam_daughter_startPx);
   tree->SetBranchAddress("true_beam_daughter_startPy", &true_beam_daughter_startPy);
