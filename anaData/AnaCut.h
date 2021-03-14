@@ -513,11 +513,14 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
       nproton++;
     }
 
+    bool tmpIspip = false;
     if(IsPiplus(ii, kfill, truthParticleType, truthMomRefBeam, startE2, startE3, startTME, lastE2, lastE3, lastTME)){
       if(recParticleType!=-999){
         printf("particle already identified!! %d\n", recParticleType); exit(1);
       }
 
+      tmpIspip = true;
+      
       recParticleType = AnaUtils::gkPiPlus;
       npiplus++;
     }
@@ -526,7 +529,7 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
       nshower++;
     }
 
-    if(IsMichel(ii, kfill, truthParticleType)){
+    if(tmpIspip && IsMichel(ii, kfill, truthParticleType)){
       nmichel++;
     }
    
