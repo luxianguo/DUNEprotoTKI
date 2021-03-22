@@ -28,7 +28,7 @@ const bool gkOnlySignal = false;
 const bool gkFillBefore = false;//(gkOnlySignal?false:true);//
 
 //1 is mc, 2 is data, 3 is both
-const int gkDataBit = 1;//(gkOnlySignal?1:3);
+const int gkDataBit = (gkOnlySignal?1:3);//1;//
 
 //gkFast=true: only png will be save; otherwise eps, pdf, png all saved
 const bool gkFast = true;//false;

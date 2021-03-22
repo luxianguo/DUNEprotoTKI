@@ -650,7 +650,7 @@ bool CutBeamID(const std::vector<int> & pidCandidates)
   //https://github.com/calcuttj/PionStudies/blob/master/rDataFrame/eventSelection.C
   //line 128
   // auto data_all = data_frame
-  //    .Define("beamPID", data_beam_PID, {"data_BI_PDG_candidates"})
+  //    .Define("beamPID", data_beam_PID, {"beam_inst_PDG_candidates"})
   //line 157
   // .Filter("beamPID == true"); 
 
@@ -712,22 +712,22 @@ bool CutMCBeamPos()
 bool Manual_beamPos_data(const int event,            const double data_startX,
                          const double data_startY,   const double data_startZ,
                          const double data_dirX,     const double data_dirY,
-                         const double data_dirZ,     const double data_BI_X,
-                         const double data_BI_Y,     const double data_BI_dirX,
-                         const double data_BI_dirY,  const double data_BI_dirZ,
-                         const int data_BI_nMomenta, const int data_BI_nTracks) 
+                         const double data_dirZ,     const double beam_inst_X,
+                         const double beam_inst_Y,     const double beam_inst_dirX,
+                         const double beam_inst_dirY,  const double beam_inst_dirZ,
+                         const int beam_inst_nMomenta, const int beam_inst_nTracks) 
 {
 
   //For Data from Owen Goodwin
   const double data_xlow = 0., data_xhigh = 10., data_ylow= -5.;
   const double data_yhigh= 10., data_zlow=30., data_zhigh=35., data_coslow=.93;
 
-  const double deltaX = data_startX - data_BI_X;
-  const double deltaY = data_startY - data_BI_Y;
-  const double cos = data_BI_dirX*data_dirX + data_BI_dirY*data_dirY +
-               data_BI_dirZ*data_dirZ;
+  const double deltaX = data_startX - beam_inst_X;
+  const double deltaY = data_startY - beam_inst_Y;
+  const double cos = beam_inst_dirX*data_dirX + beam_inst_dirY*data_dirY +
+               beam_inst_dirZ*data_dirZ;
 
-  if(data_BI_nMomenta != 1 || data_BI_nTracks != 1)
+  if(beam_inst_nMomenta != 1 || beam_inst_nTracks != 1)
     return false;
 
   if( (deltaX < data_xlow) || (deltaX > data_xhigh) )
@@ -753,14 +753,14 @@ bool CutDataBeamPos()
 .Define("passBeamCut", manual_beamPos_data,
             {"event","reco_beam_startX", "reco_beam_startY", "reco_beam_startZ",
             "reco_beam_trackDirX", "reco_beam_trackDirY", "reco_beam_trackDirZ",
-            "data_BI_X", "data_BI_Y", "data_BI_dirX", "data_BI_dirY",
-            "data_BI_dirZ", "data_BI_nMomenta", "data_BI_nTracks"})
+            "beam_inst_X", "beam_inst_Y", "beam_inst_dirX", "beam_inst_dirY",
+            "beam_inst_dirZ", "beam_inst_nMomenta", "beam_inst_nTracks"})
    */
 
   return Manual_beamPos_data(-999, AnaIO::reco_beam_startX, AnaIO::reco_beam_startY, AnaIO::reco_beam_startZ,
                              AnaIO::reco_beam_trackDirX, AnaIO::reco_beam_trackDirY, AnaIO::reco_beam_trackDirZ,
-                             AnaIO::data_BI_X, AnaIO::data_BI_Y, AnaIO::data_BI_dirX, AnaIO::data_BI_dirY,
-                             AnaIO::data_BI_dirZ, AnaIO::data_BI_nMomenta, AnaIO::data_BI_nTracks);
+                             AnaIO::beam_inst_X, AnaIO::beam_inst_Y, AnaIO::beam_inst_dirX, AnaIO::beam_inst_dirY,
+                             AnaIO::beam_inst_dirZ, AnaIO::beam_inst_nMomenta, AnaIO::beam_inst_nTracks);
   
 }
 
@@ -781,7 +781,7 @@ bool CutBeamAllInOne(const bool kmc)
     }
   }
   else{
-    const bool data_beamID = CutBeamID((*AnaIO::data_BI_PDG_candidates));
+    const bool data_beamID = CutBeamID((*AnaIO::beam_inst_PDG_candidates));
     style::FillInRange(AnaIO::hCutBeamID, data_beamID);
     if(!data_beamID){
       return false;

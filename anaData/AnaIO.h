@@ -123,7 +123,7 @@ namespace AnaIO
   vector<double>* reco_daughter_allTrack_Theta = 0x0;
   vector<double>* reco_daughter_allTrack_Phi = 0x0;
 
-  vector<int>     *data_BI_PDG_candidates=0x0;
+  vector<int>     *beam_inst_PDG_candidates=0x0;
 
   int reco_beam_type = -999;
 
@@ -153,13 +153,13 @@ namespace AnaIO
   Double_t        true_beam_interactingEnergy;
   //Double_t        new_true_beam_interactingEnergy;
 
-  Double_t        data_BI_X;
-  Double_t        data_BI_Y;
-  Double_t        data_BI_dirX;
-  Double_t        data_BI_dirY;
-  Double_t        data_BI_dirZ;
-  Int_t           data_BI_nMomenta;
-  Int_t           data_BI_nTracks;
+  Double_t        beam_inst_X;
+  Double_t        beam_inst_Y;
+  Double_t        beam_inst_dirX;
+  Double_t        beam_inst_dirY;
+  Double_t        beam_inst_dirZ;
+  Int_t           beam_inst_nMomenta;
+  Int_t           beam_inst_nTracks;
 
   //not used, keep in case ->
   vector<double>  *reco_beam_calibrated_dEdX;
@@ -436,7 +436,7 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("true_beam_PDG", &true_beam_PDG);
 
   //--------------------------------------- anaRec ---------------------------------------
-  tree->SetBranchAddress("data_BI_PDG_candidates", &data_BI_PDG_candidates);
+  tree->SetBranchAddress("beam_inst_PDG_candidates", &beam_inst_PDG_candidates);
   tree->SetBranchAddress("reco_beam_type", &reco_beam_type);
 
   tree->SetBranchAddress("reco_beam_trackDirX", &reco_beam_trackDirX);
@@ -462,13 +462,13 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("true_beam_startZ", &true_beam_startZ);
   tree->SetBranchAddress("true_beam_startDirZ", &true_beam_startDirZ);
 
-  tree->SetBranchAddress("data_BI_X", &data_BI_X);
-  tree->SetBranchAddress("data_BI_Y", &data_BI_Y);
-  tree->SetBranchAddress("data_BI_dirX", &data_BI_dirX);
-  tree->SetBranchAddress("data_BI_dirY", &data_BI_dirY);
-  tree->SetBranchAddress("data_BI_dirZ", &data_BI_dirZ);
-  tree->SetBranchAddress("data_BI_nMomenta", &data_BI_nMomenta);
-  tree->SetBranchAddress("data_BI_nTracks", &data_BI_nTracks);
+  tree->SetBranchAddress("beam_inst_X", &beam_inst_X);
+  tree->SetBranchAddress("beam_inst_Y", &beam_inst_Y);
+  tree->SetBranchAddress("beam_inst_dirX", &beam_inst_dirX);
+  tree->SetBranchAddress("beam_inst_dirY", &beam_inst_dirY);
+  tree->SetBranchAddress("beam_inst_dirZ", &beam_inst_dirZ);
+  tree->SetBranchAddress("beam_inst_nMomenta", &beam_inst_nMomenta);
+  tree->SetBranchAddress("beam_inst_nTracks", &beam_inst_nTracks);
 
   tree->SetBranchAddress("reco_beam_endX", &reco_beam_endX);
   tree->SetBranchAddress("reco_beam_endY", &reco_beam_endY);
