@@ -311,7 +311,8 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
     }
     else{
       recidx = piplusIdx;
-      mombyrange = AnaIO::reco_daughter_allTrack_momByRange_muon;
+      printf("no array for mbr for piplus yet! exit!\n"); exit(1);
+      //exit here: mombyrange = AnaIO::reco_daughter_allTrack_momByRange_muon;//for pi+, this momentum by range is not accurate
       recmomentum = &AnaIO::recPiPlusmomentum;
     }
 

@@ -152,10 +152,20 @@ TVector3 GetTruthBeamFull()
   return tmpbeam;
 }
 
-
+double GetPionMomentumByRange(const int ii)
+{
+  const double RR = (*AnaIO::reco_daughter_allTrack_alt_len)[ii];
+  const double AA = 7.86;
+  const double bb = -0.370;
+  const double Tpi = ( AA/(bb+1) ) *TMath::Power(RR, bb+1) *1e-3;//in GeV
+  const double mbr = TMath::Sqrt( TMath::Power(Tpi+AnaFunctions::PionMass(),2) - TMath::Power(AnaFunctions::PionMass(),2) );
+  //printf("testtest mbr RR %f AA %f bb %f Tpi %f mbr %f\n", RR, AA, bb, Tpi, mbr);
+  return mbr;
+}
+  
 TVector3 GetRecTrackVectLab(const int ii, const bool kProton)
 {
-  const double trackMBR = kProton? (*AnaIO::reco_daughter_allTrack_momByRange_proton)[ii] : (*AnaIO::reco_daughter_allTrack_momByRange_muon)[ii];
+  const double trackMBR = kProton? (*AnaIO::reco_daughter_allTrack_momByRange_proton)[ii] : GetPionMomentumByRange(ii);
   TVector3 trackVectLab;
   trackVectLab.SetMagThetaPhi(trackMBR, (*AnaIO::reco_daughter_allTrack_Theta)[ii], (*AnaIO::reco_daughter_allTrack_Phi)[ii]);
 

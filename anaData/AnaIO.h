@@ -118,7 +118,8 @@ namespace AnaIO
   vector<double>  *reco_daughter_allShower_startZ = 0x0;
     
   vector<double>* reco_daughter_allTrack_momByRange_proton = 0x0;
-  vector<double>* reco_daughter_allTrack_momByRange_muon = 0x0;
+  //vector<double>* reco_daughter_allTrack_momByRange_muon = 0x0;
+  vector<double>  *reco_daughter_allTrack_alt_len;//after SCE correction, need to convert to kinetic energy
 
   vector<double>* reco_daughter_allTrack_Theta = 0x0;
   vector<double>* reco_daughter_allTrack_Phi = 0x0;
@@ -424,7 +425,7 @@ TTree * GetInputTree(TFile * fin, const TString tname)
   tree->SetBranchAddress("reco_daughter_allShower_startZ", &reco_daughter_allShower_startZ);
 
   tree->SetBranchAddress("reco_daughter_allTrack_momByRange_proton", &reco_daughter_allTrack_momByRange_proton);
-  tree->SetBranchAddress("reco_daughter_allTrack_momByRange_muon", &reco_daughter_allTrack_momByRange_muon);
+  tree->SetBranchAddress("reco_daughter_allTrack_alt_len", &reco_daughter_allTrack_alt_len);
 
   tree->SetBranchAddress("reco_daughter_allTrack_Theta", &reco_daughter_allTrack_Theta);
   tree->SetBranchAddress("reco_daughter_allTrack_Phi", &reco_daughter_allTrack_Phi);
