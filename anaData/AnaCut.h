@@ -641,7 +641,7 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
   }
   else{
     //require michel for pi+
-    if(cutnMEpiplus!=1 || cutnmichel!=1){
+    if(cutnMEpiplus!=1 || cutnMEproton!=0){
       return false;
     }
   }
