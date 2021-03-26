@@ -437,7 +437,7 @@ bool IsPiplus(const int ii, const bool kfill, const int truthParticleType, const
   return true;
 }
 
-void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int & nshower, int & nmichel, TLorentzVector *  & leadingPi0, const bool kprint, const bool kfill)
+void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int & nshower, int & nmichel, int & nMEproton, int & nMEpiplus, TLorentzVector *  & leadingPi0, const bool kprint, const bool kfill)
 {
   //
   //to-do: need to pass out the proton and piplus
@@ -469,6 +469,8 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
   npiplus = 0;
   nshower = 0;
   nmichel = 0;
+  nMEproton = 0;
+  nMEpiplus = 0;
   int nPFP = 0;
 
   /* to-do:
@@ -508,29 +510,41 @@ void CountPFP(const bool kMC, const bool kpi0, int & nproton, int & npiplus, int
 
     int recParticleType = -999;
 
+    bool tmpIsProton = false;
     if(IsProton(ii, kfill, truthParticleType, truthMomRefBeam, startE2, startE3, startTME, lastE2, lastE3, lastTME)){
       recParticleType = AnaUtils::gkProton;
       nproton++;
+      tmpIsProton = true;
     }
 
-    bool tmpIspip = false;
+    bool tmpIsMichel = false;
+    if(IsMichel(ii, kfill, truthParticleType)){
+      nmichel++;
+      tmpIsMichel = true;
+    }
+
+    bool tmpIsPip = false;
     if(IsPiplus(ii, kfill, truthParticleType, truthMomRefBeam, startE2, startE3, startTME, lastE2, lastE3, lastTME)){
       if(recParticleType!=-999){
         printf("particle already identified!! %d\n", recParticleType); exit(1);
       }
 
-      tmpIspip = true;
-      
       recParticleType = AnaUtils::gkPiPlus;
       npiplus++;
+      tmpIsPip = true;
     }
 
     if(IsShower(kpi0, ii, showerArray, showerEarr, showerTypeArray, kfill, truthParticleType)){
       nshower++;
     }
 
-    if(tmpIspip && IsMichel(ii, kfill, truthParticleType)){
-      nmichel++;
+    if(tmpIsMichel){
+      if(tmpIsProton){
+        nMEproton++;
+      }
+      if(tmpIsPip){
+        nMEpiplus++;
+      }
     }
    
     //__________________________________________ Print __________________________________________
@@ -574,11 +588,13 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
   int cutnpiplus = 0;
   int cutnshower = 0;
   int cutnmichel = 0;
+  int cutnMEproton = 0;
+  int cutnMEpiplus = 0;
   TLorentzVector * leadingPi0 = 0x0;  
 
   const bool kprint = false;
   const bool kfill = kFillBefore;
-  CountPFP(kMC, kpi0, cutnproton, cutnpiplus, cutnshower, cutnmichel, leadingPi0, kprint, kfill);
+  CountPFP(kMC, kpi0, cutnproton, cutnpiplus, cutnshower, cutnmichel, cutnMEproton, cutnMEpiplus, leadingPi0, kprint, kfill);
   
   const int filleventtype = AnaUtils::GetFillEventType();
 
@@ -625,7 +641,7 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
   }
   else{
     //require michel for pi+
-    if(cutnmichel==0){
+    if(cutnMEpiplus!=1 || cutnmichel!=1){
       return false;
     }
   }
@@ -637,7 +653,8 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
   }
   */
 
-  //test printf("selected run %d subrun %d event %d\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent);
+  //test
+  printf("selected run %d subrun %d event %d\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent);
   
   return true;
 }

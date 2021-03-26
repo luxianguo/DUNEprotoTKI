@@ -142,7 +142,7 @@ int anaRec(TString finName, TList *lout, const TString tag, const int nEntryToSt
     int dummycounter = -999;
     const bool kprint = false;
     const bool kfill = !gkFillBefore;
-    AnaCut::CountPFP(kMC, kPiZero, dummycounter, dummycounter, dummycounter, dummycounter, dummypi0, kprint, kfill);
+    AnaCut::CountPFP(kMC, kPiZero, dummycounter, dummycounter, dummycounter, dummycounter,  dummycounter, dummycounter, dummypi0, kprint, kfill);
     
     //--- to test
      /*   
