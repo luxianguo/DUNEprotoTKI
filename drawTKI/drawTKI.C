@@ -101,6 +101,12 @@ TString setX(const TString var, const bool kPiZero, int &nbin, double &xmin, dou
     vn="#it{p}_{p}^{subleading} (GeV/#it{c})";
     lxoff = xr;
   }
+  else if(var=="deltaBeamP"){
+    nbin = 30;
+    xmin = -1;
+    xmax = 0.2;
+    vn="(Calc.- Meas.)_{#it{p}_{#pi^{+}}^{in}} (GeV/#it{c})";
+  }
   else{
     cout<<"setX unknown var! "<<var<<endl;
     exit(1);
@@ -115,7 +121,7 @@ TString getUnit(const TString tit)
   return unit(0, unit.First(")"));
 }
 
-void drawTKI(const TString var, TList *lout, const TString pretag, const bool kPScut, const bool kSLcut, const double ppthres)
+void drawTKI(const TString var, TList *lout, const TString pretag, const bool kPScut, const bool kSLcut, const double ppthres, const bool kBeamPcut = false)
 {
   //_____________________________________________________ basic settings _____________________________________________________ 
 
@@ -139,13 +145,13 @@ void drawTKI(const TString var, TList *lout, const TString pretag, const bool kP
   printf("var %s vn %s nbin %d xmin %f xmax %f\n", var.Data(), vn.Data(), nbin, xmin, xmax);
 
   THStack * stk = new THStack("s"+var,var); lout->Add(stk);
-  TLegend * lg = new TLegend(lxoff+0.15, 0.65, lxoff+0.5, 0.9);
+  TLegend * lg = new TLegend(lxoff+0.15, 0.5, lxoff+0.5, 0.88);
   style::ResetStyle(lg);
 
   //need system color
   //const int col[]={kGray, kRed, kBlue, kOrange, kGreen+3};
   const int col[]={kOrange,  1014, 1011, 1007,  kOrange, 1009, kOrange, 1003, 1008, 1002, kRed, kBlue, kGray, kOrange, kGreen+3, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009};
-  const TString tag = Form("%s_%s_ppthres%.0fPScut%dSLcut%d", var.Data(), pretag.Data(), ppthres*1E3, kPScut, kSLcut);
+  const TString tag = Form("%s_%s_ppthres%.0fPScut%dSLcut%dbeamPcut%d", var.Data(), pretag.Data(), ppthres*1E3, kPScut, kSLcut, kBeamPcut);
 
   //====================== define cuts for topology decomposition to form a stack ======================
 
@@ -171,6 +177,7 @@ void drawTKI(const TString var, TList *lout, const TString pretag, const bool kP
   cns.push_back("1pMn");
   cns.push_back("NpMn");
 
+  const TString beamPcut = "&& deltaBeamP > -0.04";
   //_____________________________________________________ draw each cut and add non-all to stack  _____________________________________________________
 
   double ntotall = -999;
@@ -189,6 +196,9 @@ void drawTKI(const TString var, TList *lout, const TString pretag, const bool kP
     }
     if(kSLcut){
       dcut += SLcut;
+    }
+    if(kBeamPcut){
+      dcut += beamPcut;
     }
 
     const int nev = tree->Draw(darg, dcut);
@@ -235,6 +245,10 @@ void drawTKI(const TString var, TList *lout, const TString pretag, const bool kP
   if(kSLcut){
     lheader += Form(", #it{p}_{p}^{s.l.}<%.2f", ppthres);
   }
+  if(kBeamPcut){
+    lheader.Prepend("#splitline{");
+    lheader += "}{(calc.-meas.)_{P_{beam}}> #minus0.04}";
+  }
   lg->SetHeader(lheader);
   lg->Draw();
 
@@ -272,15 +286,17 @@ int main(int argc, char* argv[])
   }
 
   //draw different observables one by one
-  const TString vars[]={"dalphat","dphit","dpt","pn", "iniPimomentum", "finPimomentum", "finProtonmomentum", "iniPitheta", "finPitheta", "finProtontheta", "fin2Pmom"};
+  const TString vars[]={"dalphat","dphit","dpt","pn", "iniPimomentum", "finPimomentum", "finProtonmomentum", "iniPitheta", "finPitheta", "finProtontheta", "fin2Pmom", "deltaBeamP"};
   for(unsigned int ii=0; ii<sizeof(vars)/sizeof(TString); ii++){
     //void drawTKI(const TString var, TList *lout, const TString pretag, const bool kPScut, const bool kSLcut, const double ppthres)
     //draw different phase space cuts
 
     //0.45 -> 100 MeV K.E.
     drawTKI(vars[ii], lout, tag,  0, 0, 0.45);
+    drawTKI(vars[ii], lout, tag,  0, 0, 0.45, 1);
     drawTKI(vars[ii], lout, tag,  1, 0, 0.45);
     drawTKI(vars[ii], lout, tag,  1, 1, 0.45);
+    drawTKI(vars[ii], lout, tag,  1, 1, 0.45, 1);
     //0.25 -> 30 MeV K.E.
     drawTKI(vars[ii], lout, tag,  1, 0, 0.25);
     drawTKI(vars[ii], lout, tag,  1, 1, 0.25);

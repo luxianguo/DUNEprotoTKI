@@ -8,12 +8,14 @@ namespace AnaIO
   double  dphit;
   double  dpt; 
   double  pn; 
+  double  calcBeamP;
+  double  deltaBeamP;
   double  iniPimomentum; 
   double  iniPitheta; 
   double  finPimomentum; 
   double  finPitheta; 
   double  finProtonmomentum; 
-  double  finProtontheta; 
+  double  finProtontheta;
   double  fin2Pmom; 
   double  maxgammaEnergy;
   int nproton; 
@@ -183,6 +185,8 @@ namespace AnaIO
   TH1D *hdphit = 0x0;
   TH1D *hdpt = 0x0;
   TH1D *hpn = 0x0;
+  TH1D *hcalcBeamP = 0x0;
+  TH1D *hdeltaBeamP = 0x0;
   
   //======================================= Rec Hist out =======================================
   TH1I * hTruthBeamType = 0x0;
@@ -312,6 +316,8 @@ TTree * GetOutputTree(TList * lout, const TString tag)
   tout->Branch("dphit",&dphit);
   tout->Branch("dpt",&dpt);
   tout->Branch("pn",&pn);
+  tout->Branch("calcBeamP",&calcBeamP);
+  tout->Branch("deltaBeamP",&deltaBeamP);
   tout->Branch("iniPimomentum",&iniPimomentum);
   tout->Branch("iniPitheta",&iniPitheta);
   tout->Branch("finPimomentum",&finPimomentum);
@@ -682,6 +688,9 @@ void IniTruthHist(TList * lout, const TString tag)
 
    const double Hbin[]={0.000000, 0.025000, 0.050000, 0.075000, 0.100000, 0.125000, 0.150000, 0.175000, 0.200000, 0.225000, 0.250000, 0.275000, 0.300000, 0.350000, 0.400000, 0.450000, 0.500000, 0.550000, 0.600000, 0.650000, 0.700000, 0.800000, 1.000000, 1.200000, 2.000000};
    hpn = new TH1D("pn","", sizeof(Hbin)/sizeof(double)-1, Hbin); lout->Add(hpn);
+
+   hcalcBeamP = new TH1D("calcBeamP","", 30, 0, 2); lout->Add(hcalcBeamP);
+   hdeltaBeamP = new TH1D("deltaBeamP","", 30, -1, 0.2); lout->Add(hdeltaBeamP);
 }
 
 }

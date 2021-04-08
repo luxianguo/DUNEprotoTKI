@@ -289,7 +289,11 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
       //re-calculate final pi p theta w.r.t. iniPi
       const int targetA = 40;
       const int targetZ = 18;
-      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, AnaIO::pn, AnaIO::finPitheta, AnaIO::finProtontheta);
+      double dummydptt=-999;
+      const double beamMass = AnaFunctions::PionMass();
+      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, AnaIO::pn, dummydptt, AnaIO::finPitheta, AnaIO::finProtontheta, beamMass, AnaIO::calcBeamP);
+
+      AnaIO::deltaBeamP = AnaIO::calcBeamP-AnaIO::iniPimomentum;
       
       AnaIO::hmomIniPi->Fill(AnaIO::iniPimomentum);
       AnaIO::hmomFinPi->Fill(AnaIO::finPimomentum);
@@ -298,6 +302,8 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
       AnaIO::hdphit->Fill(AnaIO::dphit);
       AnaIO::hdpt->Fill(AnaIO::dpt);
       AnaIO::hpn->Fill(AnaIO::pn);
+      AnaIO::hcalcBeamP->Fill(AnaIO::calcBeamP);
+      AnaIO::hdeltaBeamP->Fill(AnaIO::deltaBeamP);
     }
 
     //---------- get truth-matched reconstructed momentum ---------- 
