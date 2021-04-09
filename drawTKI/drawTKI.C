@@ -107,6 +107,12 @@ TString setX(const TString var, const bool kPiZero, int &nbin, double &xmin, dou
     xmax = 0.2;
     vn="(Calc.- Meas.)_{#it{p}_{#pi^{+}}^{in}} (GeV/#it{c})";
   }
+  else if(var=="Mx"){
+    nbin = 30;
+    xmin = 35;
+    xmax = 36.4;
+    vn="M_{A'} (GeV)";
+  }
   else{
     cout<<"setX unknown var! "<<var<<endl;
     exit(1);
@@ -286,7 +292,7 @@ int main(int argc, char* argv[])
   }
 
   //draw different observables one by one
-  const TString vars[]={"dalphat","dphit","dpt","pn", "iniPimomentum", "finPimomentum", "finProtonmomentum", "iniPitheta", "finPitheta", "finProtontheta", "fin2Pmom", "deltaBeamP"};
+  const TString vars[]={"dalphat","dphit","dpt","pn", "iniPimomentum", "finPimomentum", "finProtonmomentum", "iniPitheta", "finPitheta", "finProtontheta", "fin2Pmom", "deltaBeamP", "Mx"};
   for(unsigned int ii=0; ii<sizeof(vars)/sizeof(TString); ii++){
     //void drawTKI(const TString var, TList *lout, const TString pretag, const bool kPScut, const bool kSLcut, const double ppthres)
     //draw different phase space cuts
