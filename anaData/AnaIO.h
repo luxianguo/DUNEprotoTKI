@@ -9,7 +9,6 @@ namespace AnaIO
   double  dpt; 
   double  pn; 
   double  calcBeamP;
-  double  Mx2;
   double  Mx; 
   double  deltaBeamP;
   double  iniPimomentum; 
@@ -188,7 +187,6 @@ namespace AnaIO
   TH1D *hdpt = 0x0;
   TH1D *hpn = 0x0;
   TH1D *hcalcBeamP = 0x0;
-  TH1D *hMx2 = 0x0;
   TH1D *hMx = 0x0;
   TH1D *hdeltaBeamP = 0x0;
   
@@ -321,7 +319,6 @@ TTree * GetOutputTree(TList * lout, const TString tag)
   tout->Branch("dpt",&dpt);
   tout->Branch("pn",&pn);
   tout->Branch("calcBeamP",&calcBeamP);
-  tout->Branch("Mx2",&Mx2);
   tout->Branch("Mx",&Mx);
   tout->Branch("deltaBeamP",&deltaBeamP);
   tout->Branch("iniPimomentum",&iniPimomentum);
@@ -696,7 +693,6 @@ void IniTruthHist(TList * lout, const TString tag)
    hpn = new TH1D("pn","", sizeof(Hbin)/sizeof(double)-1, Hbin); lout->Add(hpn);
 
    hcalcBeamP = new TH1D("calcBeamP","", 30, 0, 2); lout->Add(hcalcBeamP);
-   hMx2 = new TH1D("Mx2","", 30, 1200, 1400); lout->Add(hMx2);
    hMx = new TH1D("Mx","", 30, 30, 40); lout->Add(hMx);
    hdeltaBeamP = new TH1D("deltaBeamP","", 30, -1, 0.2); lout->Add(hdeltaBeamP);
 }

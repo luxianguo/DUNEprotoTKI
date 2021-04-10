@@ -291,9 +291,8 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
       const int targetZ = 18;
       double dummydptt=-999;
       const double beamMass = AnaFunctions::PionMass();
-      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, AnaIO::pn, dummydptt, AnaIO::finPitheta, AnaIO::finProtontheta, beamMass, AnaIO::calcBeamP, AnaIO::Mx2);
+      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, AnaIO::pn, dummydptt, AnaIO::finPitheta, AnaIO::finProtontheta, beamMass, AnaIO::calcBeamP, AnaIO::Mx);
 
-      AnaIO::Mx = AnaIO::Mx2>0 ? TMath::Sqrt(AnaIO::Mx2) : -999;
       AnaIO::deltaBeamP = AnaIO::calcBeamP-AnaIO::iniPimomentum;
       
       AnaIO::hmomIniPi->Fill(AnaIO::iniPimomentum);
@@ -304,7 +303,6 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
       AnaIO::hdpt->Fill(AnaIO::dpt);
       AnaIO::hpn->Fill(AnaIO::pn);
       AnaIO::hcalcBeamP->Fill(AnaIO::calcBeamP);
-      AnaIO::hMx2->Fill(AnaIO::Mx2);
       AnaIO::hMx->Fill(AnaIO::Mx);
       AnaIO::hdeltaBeamP->Fill(AnaIO::deltaBeamP);
     }
