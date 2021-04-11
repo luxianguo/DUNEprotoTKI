@@ -109,9 +109,10 @@ TString setX(const TString var, const bool kPiZero, int &nbin, double &xmin, dou
   }
   else if(var=="Mx"){
     nbin = 30;
-    xmin = 35;
-    xmax = 36.4;
+    xmin = 36.2;
+    xmax = 37.2;
     vn="M_{A'} (GeV)";
+    lxoff = xr;
   }
   else{
     cout<<"setX unknown var! "<<var<<endl;

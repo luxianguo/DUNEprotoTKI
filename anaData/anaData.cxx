@@ -264,7 +264,8 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
     }
 
     //---------- get beam ---------- 
-    const TLorentzVector beamFullP(AnaIO::true_beam_endPx, AnaIO::true_beam_endPy, AnaIO::true_beam_endPz, AnaFunctions::PionMass());
+    TLorentzVector beamFullP;
+    beamFullP.SetXYZM(AnaIO::true_beam_endPx, AnaIO::true_beam_endPy, AnaIO::true_beam_endPz, AnaFunctions::PionMass());
 
     AnaIO::iniPimomentum = beamFullP.P();
     AnaIO::iniPitheta = beamFullP.Theta()*TMath::RadToDeg();
