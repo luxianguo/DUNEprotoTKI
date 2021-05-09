@@ -47,11 +47,18 @@ TString setX(const TString var, const bool kPiZero, int &nbin, double &xmin, dou
     vn="#delta#it{p}_{T} (GeV/#it{c})";
     lxoff = xr;
   }
-  else if(var=="pn"){
+  else if(var=="IApN"){
     nbin = 30;
     xmin = 0; 
     xmax = 1.2;
-    vn="#it{p}_{N} (GeV/#it{c})";
+    vn="#it{p}_{N}^{IA} (GeV/#it{c})";
+    lxoff = xr;
+  }
+  else if(var=="recoilP"){
+    nbin = 30;
+    xmin = 0; 
+    xmax = 1.2;
+    vn="#it{p}_{N}^{full} (GeV/#it{c})";
     lxoff = xr;
   }
   else if(var=="iniPimomentum"){
@@ -107,7 +114,7 @@ TString setX(const TString var, const bool kPiZero, int &nbin, double &xmin, dou
     xmax = 0.2;
     vn="(Calc.- Meas.)_{#it{p}_{#pi^{+}}^{in}} (GeV/#it{c})";
   }
-  else if(var=="Mx"){
+  else if(var=="recoilM"){
     nbin = 30;
     xmin = 36.2;
     xmax = 37.2;
@@ -293,7 +300,7 @@ int main(int argc, char* argv[])
   }
 
   //draw different observables one by one
-  const TString vars[]={"dalphat","dphit","dpt","pn", "iniPimomentum", "finPimomentum", "finProtonmomentum", "iniPitheta", "finPitheta", "finProtontheta", "fin2Pmom", "deltaBeamP", "Mx"};
+  const TString vars[]={"dalphat","dphit","dpt","IApN", "recoilP", "iniPimomentum", "finPimomentum", "finProtonmomentum", "iniPitheta", "finPitheta", "finProtontheta", "fin2Pmom", "deltaBeamP", "recoilM"};
   for(unsigned int ii=0; ii<sizeof(vars)/sizeof(TString); ii++){
     //void drawTKI(const TString var, TList *lout, const TString pretag, const bool kPScut, const bool kSLcut, const double ppthres)
     //draw different phase space cuts
