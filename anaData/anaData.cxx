@@ -281,20 +281,24 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
     AnaIO::finProtonmomentum = vecPiP[1].P();
     AnaIO::fin2Pmom = vecPiP[2].P();
 
+    //double GetThetaRef(const TVector3 &vold, const TVector3 &vreftmp)
+    AnaIO::finPitheta     = AnaFunctions::GetThetaRef(beamFullP.Vect(), vecPiP[0].Vect())*TMath::RadToDeg();
+    AnaIO::finProtontheta = AnaFunctions::GetThetaRef(beamFullP.Vect(), vecPiP[1].Vect())*TMath::RadToDeg();
+
     //---------- calculate TKI only for signal ----------
     if(AnaIO::kSignal){
       AnaIO::hnproton->Fill(AnaIO::nproton);
       AnaIO::hnneutron->Fill(AnaIO::nneutron);
       AnaIO::hnPiZero->Fill(AnaIO::nPiZero);
-      
+
       //re-calculate final pi p theta w.r.t. iniPi
       const int targetA = 40;
       const int targetZ = 18;
       double dummydptt=-999;
-      const double beamMass = AnaFunctions::PionMass();
-      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, AnaIO::pn, dummydptt, AnaIO::finPitheta, AnaIO::finProtontheta, beamMass, AnaIO::calcBeamP, AnaIO::Mx);
+      //void getCommonTKI(const int targetA, const int targetZ, const TLorentzVector *beamfullp, const TLorentzVector *scatterfullp, const TLorentzVector *recoilfullp, double & dalphat, double & dphit, double & dpt, double & dpTT, double & beamCalcP, double & IApN, double & recoilM, double & recoilP)
+      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, dummydptt, AnaIO::beamCalcP, AnaIO::IApN, AnaIO::recoilM, AnaIO::recoilP);
 
-      AnaIO::deltaBeamP = AnaIO::calcBeamP-AnaIO::iniPimomentum;
+      AnaIO::deltaBeamP = AnaIO::beamCalcP-AnaIO::iniPimomentum;
       
       AnaIO::hmomIniPi->Fill(AnaIO::iniPimomentum);
       AnaIO::hmomFinPi->Fill(AnaIO::finPimomentum);
@@ -302,9 +306,9 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
       AnaIO::hdalphat->Fill(AnaIO::dalphat);
       AnaIO::hdphit->Fill(AnaIO::dphit);
       AnaIO::hdpt->Fill(AnaIO::dpt);
-      AnaIO::hpn->Fill(AnaIO::pn);
-      AnaIO::hcalcBeamP->Fill(AnaIO::calcBeamP);
-      AnaIO::hMx->Fill(AnaIO::Mx);
+      AnaIO::hIApN->Fill(AnaIO::IApN);
+      AnaIO::hbeamCalcP->Fill(AnaIO::beamCalcP);
+      AnaIO::hrecoilM->Fill(AnaIO::recoilM);
       AnaIO::hdeltaBeamP->Fill(AnaIO::deltaBeamP);
     }
 
