@@ -3,25 +3,27 @@
   20200716_DUNEproto_selection: version used to produce                       https://indico.fnal.gov/event/44473/contributions/191740/attachments/131455/160976/20200716_DUNEproto_selection_xlu.pdf 
   
   ## Documentation of source codes 
-   http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI
+   http://www-pnp.physics.ox.ac.uk/~luxi/transport/doxygen/DUNEprotoTKI_tutorial
 
   ## Analysis Tutorial
    https://docs.google.com/document/d/1WtcmMc4_-jgkhw0bKZWe98nhYL54orRb7lmLkx6MgzQ/edit?usp=sharing
   
   ## Quick how-to
-
-0. style/, bin/, and include/AnaFunctions.h are from submodule. Need to load/update separately with
+0. First checkout TKI package in some location $TKI_PARENT
    ```
-   git submodule update --init
+   cd $TKI_PARENT
+   git clone https://github.com/luxianguo/TKI.git
    ```
-   and
+   Then checkout DUNEprotoTKI package in some other location $DUNEPROTOTKI_PARENT
    ```
-   git submodule update --remote
+   cd $DUNEPROTOTKI_PARENT
+   git clone https://github.com/luxianguo/DUNEprotoTKI.git
    ```
-   respectively.
-
-   In case of "Permission denied", open .git/config and change the url in [submodule “TKI”] part to url = https://github.com/luxianguo/TKI.git. See https://stackoverflow.com/questions/49191565/git-clone-works-git-submodule-fails-permission-denied
-
+   style/, bin/, and include/AnaFunctions.h are from TKI. Need to link it to DUNEprotoTKI/
+   ```
+   cd $DUNEPROTOTKI_PARENT/DUNEprotoTKI
+   ln -s $TKI_PARENT/TKI
+   ```
 1. The symbolic links in 
    ```
    anaData/input/
@@ -37,6 +39,7 @@
 
 2. Setup ROOT and then do
    ```
+   cd $DUNEPROTOTKI_PARENT/DUNEprotoTKI
    source setup.sh
    ```
 
