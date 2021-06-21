@@ -19,9 +19,7 @@ do
     for kProton in 1
                    #0 1
     do
-        for kTruth in 1
-            #0
-                      #0 1
+        for kTruth in 0 1
         do
             ./anaData $kPiZero $kProton $kTruth >seeana${kPiZero}${kProton}${kTruth}.log 
         done

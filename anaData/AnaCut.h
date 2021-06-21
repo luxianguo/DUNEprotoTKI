@@ -340,7 +340,7 @@ bool IsProton(const int ii, const bool kfill, const int truthParticleType, const
     style::FillInRange(AnaIO::hRecProtonMomentum, recMomRefBeam.P(), truthParticleType);
     style::FillInRange(AnaIO::hRecProtonTheta, recMomRefBeam.Theta()*TMath::RadToDeg(), truthParticleType);
 
-    printf("testselected run %d subrun %d event %d recprotonmomentum p %f theta %f x %f y %f z %f E %f\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent, recMomRefBeam.P(), recMomRefBeam.Theta(), recMomRefBeam.Px(), recMomRefBeam.Py(), recMomRefBeam.Pz(), recMomRefBeam.E());
+    //printf("testselected run %d subrun %d event %d recprotonmomentum p %f theta %f x %f y %f z %f E %f\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent, recMomRefBeam.P(), recMomRefBeam.Theta(), recMomRefBeam.Px(), recMomRefBeam.Py(), recMomRefBeam.Pz(), recMomRefBeam.E());
     
     //------ fill truth-matched info
 
@@ -423,7 +423,7 @@ bool IsPiplus(const int ii, const bool kfill, const int truthParticleType, const
     style::FillInRange(AnaIO::hRecPiplusMomentum, recMomRefBeam.P(), truthParticleType);
     style::FillInRange(AnaIO::hRecPiplusTheta, recMomRefBeam.Theta()*TMath::RadToDeg(), truthParticleType);
 
-    printf("testselected run %d subrun %d event %d recpiplusmomentum p %f theta %f x %f y %f z %f E %f\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent, recMomRefBeam.P(), recMomRefBeam.Theta(), recMomRefBeam.Px(), recMomRefBeam.Py(), recMomRefBeam.Pz(), recMomRefBeam.E());
+    //printf("testselected run %d subrun %d event %d recpiplusmomentum p %f theta %f x %f y %f z %f E %f\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent, recMomRefBeam.P(), recMomRefBeam.Theta(), recMomRefBeam.Px(), recMomRefBeam.Py(), recMomRefBeam.Pz(), recMomRefBeam.E());
     
     //------ fill truth-matched info
 
@@ -658,7 +658,7 @@ bool CutTopology(const bool kMC, const bool kpi0, const bool kFillBefore)
   */
 
   //test
-  printf("testselected post topology run %d subrun %d event %d\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent);
+  //printf("testselected post topology run %d subrun %d event %d\n", AnaIO::inputrun, AnaIO::inputsubrun, AnaIO::inputevent);
   
   return true;
 }

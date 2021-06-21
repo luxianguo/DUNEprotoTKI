@@ -25,7 +25,7 @@
 const bool gkOnlySignal = false;
 
 //if true, observables will be filled before cuts; otherwise after. "false" if gkOnlySignal "true": only fill after all cuts
-const bool gkFillBefore = false;//(gkOnlySignal?false:true);//
+const bool gkFillBefore = (gkOnlySignal?false:true);//false;//
 
 //1 is mc, 2 is data, 3 is both
 const int gkDataBit = (gkOnlySignal?1:3);//1;//
