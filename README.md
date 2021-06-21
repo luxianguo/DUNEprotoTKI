@@ -13,12 +13,14 @@
    ```
    cd $TKI_PARENT
    git clone https://github.com/luxianguo/TKI.git
+   cd TKI
    git checkout tutorial
    ```
    Then checkout DUNEprotoTKI package in some other location $DUNEPROTOTKI_PARENT
    ```
    cd $DUNEPROTOTKI_PARENT
    git clone https://github.com/luxianguo/DUNEprotoTKI.git
+   cd DUNEprotonTKI
    git checkout tutorial
    ```
    style/, bin/, and include/AnaFunctions.h are from TKI. Need to link it to DUNEprotoTKI/
