@@ -20,7 +20,7 @@
    ```
    cd $DUNEPROTOTKI_PARENT
    git clone https://github.com/luxianguo/DUNEprotoTKI.git
-   cd DUNEprotonTKI
+   cd DUNEprotoTKI
    git checkout tutorial
    ```
    style/, bin/, and include/AnaFunctions.h are from TKI. Need to link it to DUNEprotoTKI/
@@ -43,6 +43,7 @@
 
 2. Setup ROOT and then do
    ```
+   cd $DUNEPROTOTKI_PARENT/DUNEprotoTKI
    source setup.sh
    ```
 
