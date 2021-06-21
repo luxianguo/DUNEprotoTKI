@@ -280,6 +280,9 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
     AnaIO::finProtonmomentum = vecPiP[1].P();
     AnaIO::fin2Pmom = vecPiP[2].P();
 
+    AnaIO::finPitheta     = AnaFunctions::GetThetaRef(beamFullP.Vect(), vecPiP[0].Vect())*TMath::RadToDeg();
+    AnaIO::finProtontheta = AnaFunctions::GetThetaRef(beamFullP.Vect(), vecPiP[1].Vect())*TMath::RadToDeg();
+
     //---------- calculate TKI only for signal ----------
     if(AnaIO::kSignal){
       AnaIO::hnproton->Fill(AnaIO::nproton);
@@ -289,7 +292,8 @@ void anaTruth(TString finName, TList *lout, const TString tag, const int nEntryT
       //re-calculate final pi p theta w.r.t. iniPi
       const int targetA = 40;
       const int targetZ = 18;
-      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, AnaIO::pn, AnaIO::finPitheta, AnaIO::finProtontheta);
+      double dummy=-999;
+      AnaFunctions::getCommonTKI(targetA, targetZ, &beamFullP, &(vecPiP[0]), &(vecPiP[1]), AnaIO::dalphat, AnaIO::dphit, AnaIO::dpt, dummy, dummy, AnaIO::pn, dummy, dummy);
       
       AnaIO::hmomIniPi->Fill(AnaIO::iniPimomentum);
       AnaIO::hmomFinPi->Fill(AnaIO::finPimomentum);
